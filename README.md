@@ -1,5 +1,7 @@
 # MSB Style Guide
 
+[![CI](https://github.com/msbfyi/msb-style-guide/actions/workflows/ci.yml/badge.svg)](https://github.com/msbfyi/msb-style-guide/actions/workflows/ci.yml)
+
 Web component library for the **Vital Spring** design system —
 msb.fyi's visual identity, extracted from `Style Guide v3.html` into
 real, installable [Lit](https://lit.dev) custom elements with a hosted
