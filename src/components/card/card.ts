@@ -14,8 +14,13 @@ import type { BadgeVariant } from "../badge/badge.js";
  * for full custom markup — a slot with actual assigned content always
  * wins over the property-driven fallback.
  *
- * @slot cover - Cover content (e.g. an image, or a patterned `<div>`).
- *   No property equivalent — covers are visual, not simple text.
+ * @slot cover - Cover content — an `<img>`, or a patterned `<div>`. No
+ *   property equivalent — covers are visual, not simple text. Slotted
+ *   content is auto-sized to fill the cover area
+ *   (`width/height: 100%; object-fit: cover`), so a plain `<img
+ *   src="...">` works without the consumer adding any sizing CSS of
+ *   its own; remember to set `alt` — the component has no way to
+ *   supply one for you.
  * @slot pin - Positioned top-left over the cover. Falls back to an
  *   `<msb-badge>` built from `pinLabel`/`pinVariant` if not provided.
  * @slot body - Body content. Falls back to `heading`/`body`. Named
@@ -49,6 +54,12 @@ export class MsbCard extends LitElement {
         position: relative;
         height: 112px;
         border-bottom: 1.5px solid var(--ink, #1b2a52);
+      }
+      .cov ::slotted(*) {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
       .pin {
         position: absolute;

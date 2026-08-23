@@ -50,8 +50,34 @@ export const Default: Story = {
     >
       <div
         slot="cover"
-        style="width:100%;height:100%;background:repeating-conic-gradient(var(--everyday) 0 25%, var(--paper) 0 50%) 0 0/20px 20px"
+        style="background:repeating-conic-gradient(var(--everyday) 0 25%, var(--paper) 0 50%) 0 0/20px 20px"
       ></div>
+    </msb-card>
+  `,
+};
+
+const PLACEHOLDER_IMG =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200'%3E%3Crect width='300' height='200' fill='%231A3A8F'/%3E%3Ccircle cx='150' cy='100' r='60' fill='%23E8B98A'/%3E%3C/svg%3E";
+
+export const ImageCover: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "The cover slot works with a plain `<img>` too — it's auto-sized to fill the area (`width/height: 100%; object-fit: cover`), no sizing CSS needed from the consumer. Remember `alt` text; the component can't supply one for you.",
+      },
+    },
+  },
+  render: (args) => html`
+    <msb-card
+      heading=${args.heading}
+      body=${args.body}
+      pin-label=${args.pinLabel}
+      pin-variant=${args.pinVariant}
+      footer-left=${args.footerLeft}
+      footer-right=${args.footerRight}
+    >
+      <img slot="cover" src=${PLACEHOLDER_IMG} alt="" />
     </msb-card>
   `,
 };
@@ -62,7 +88,7 @@ export const NoPinOrFooter: Story = {
     <msb-card heading=${args.heading} body=${args.body}>
       <div
         slot="cover"
-        style="width:100%;height:100%;background:repeating-conic-gradient(var(--everyday) 0 25%, var(--paper) 0 50%) 0 0/20px 20px"
+        style="background:repeating-conic-gradient(var(--everyday) 0 25%, var(--paper) 0 50%) 0 0/20px 20px"
       ></div>
     </msb-card>
   `,
@@ -81,7 +107,7 @@ export const CustomSlots: Story = {
     <msb-card>
       <div
         slot="cover"
-        style="width:100%;height:100%;background:repeating-conic-gradient(var(--everyday) 0 25%, var(--paper) 0 50%) 0 0/20px 20px"
+        style="background:repeating-conic-gradient(var(--everyday) 0 25%, var(--paper) 0 50%) 0 0/20px 20px"
       ></div>
       <msb-badge slot="pin" variant="tranquil">Custom</msb-badge>
       <h3 slot="body">A slotted &lt;h3&gt; instead of &lt;h4&gt;</h3>
