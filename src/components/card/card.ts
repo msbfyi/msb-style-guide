@@ -1,5 +1,5 @@
 import { LitElement, css, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import { chamferHost } from "../../internal/chamfer.js";
 import "../badge/badge.js";
 import type { BadgeVariant } from "../badge/badge.js";
@@ -27,7 +27,10 @@ import type { BadgeVariant } from "../badge/badge.js";
  *   fall through to the default slot — silently suppressing its
  *   fallback content even when you never intended to provide any).
  * @slot footer - Footer row, `justify-content: space-between`. Falls
- *   back to `footerLeft`/`footerRight`.
+ *   back to `footerLeft`/`footerRight`. The footer strip hides itself
+ *   entirely when there's neither slotted content nor a fallback value
+ *   — unlike `pin`, it has its own background/border, so an empty one
+ *   would otherwise render as a visible blank bar.
  */
 @customElement("msb-card")
 export class MsbCard extends LitElement {
@@ -86,6 +89,13 @@ export class MsbCard extends LitElement {
         justify-content: space-between;
         color: var(--formal, #1b2a52);
       }
+      /* .ft{display:flex} above is an author rule, which beats the
+         UA stylesheet's [hidden]{display:none} regardless of
+         specificity (author origin always wins over UA origin) — so
+         hidden has to be re-asserted here to actually take effect. */
+      .ft[hidden] {
+        display: none;
+      }
     `,
   ];
 
@@ -107,6 +117,24 @@ export class MsbCard extends LitElement {
   /** Fallback footer right-side text. */
   @property({ attribute: "footer-right" }) footerRight = "";
 
+  // Tracks whether the "footer" slot has real assigned content, so the
+  // footer strip (which — unlike .pin — has its own background/border
+  // and so is visibly present even empty) can hide itself when there's
+  // neither slotted content nor a footerLeft/footerRight fallback.
+  // Can't determine this from properties alone: a consumer using the
+  // real slot instead of the fallback properties never touches
+  // footerLeft/footerRight at all.
+  @state() private footerHasSlotted = false;
+
+  private get showFooter() {
+    return Boolean(this.footerLeft || this.footerRight || this.footerHasSlotted);
+  }
+
+  private handleFooterSlotChange(e: Event) {
+    const slot = e.target as HTMLSlotElement;
+    this.footerHasSlotted = slot.assignedNodes({ flatten: true }).length > 0;
+  }
+
   render() {
     return html`
       <div class="cov">
@@ -125,8 +153,8 @@ export class MsbCard extends LitElement {
           ${this.body ? html`<p>${this.body}</p>` : null}
         </slot>
       </div>
-      <div class="ft">
-        <slot name="footer">
+      <div class="ft" ?hidden=${!this.showFooter}>
+        <slot name="footer" @slotchange=${this.handleFooterSlotChange}>
           ${this.footerLeft || this.footerRight
             ? html`<span>${this.footerLeft}</span><span>${this.footerRight}</span>`
             : null}
