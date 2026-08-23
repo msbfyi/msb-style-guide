@@ -18,5 +18,5 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
-  render: () => html`<msb-divider style="display:block"></msb-divider>`,
+  render: () => html`<msb-divider></msb-divider>`,
 };
