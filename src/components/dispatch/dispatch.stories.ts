@@ -29,7 +29,7 @@ type Story = StoryObj;
 export const Default: Story = {
   render: (args) => html`
     <msb-dispatch
-      style="max-width:420px;display:block"
+      style="max-width:420px"
       kicker=${args.kicker}
       issue=${args.issue}
     >

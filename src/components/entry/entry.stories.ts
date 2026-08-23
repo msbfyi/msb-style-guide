@@ -32,7 +32,6 @@ type Story = StoryObj;
 export const Default: Story = {
   render: (args) => html`
     <msb-entry
-      style="display:flex"
       href=${args.href}
       label=${args.label}
       date=${args.date}
