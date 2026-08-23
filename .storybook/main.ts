@@ -6,6 +6,7 @@ const config: StorybookConfig = {
   addons: [
     "@storybook/addon-essentials",
     "@storybook/addon-a11y",
+    "@whitespace/storybook-addon-html",
     {
       name: "@storybook/addon-docs",
       options: {

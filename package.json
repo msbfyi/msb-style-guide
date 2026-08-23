@@ -38,6 +38,7 @@
     "@types/markdown-it": "^14.1.2",
     "@storybook/web-components": "^8.4.7",
     "@storybook/web-components-vite": "^8.4.7",
+    "@whitespace/storybook-addon-html": "^7.0.0",
     "markdown-it": "^14.1.0",
     "remark-gfm": "^4.0.1",
     "storybook": "^8.4.7",
