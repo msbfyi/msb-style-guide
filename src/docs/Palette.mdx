@@ -1,0 +1,44 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Docs/Palette" />
+
+# The Palette
+
+Five accent colors, each with a role — not interchangeable, not
+decorative. `--essence`, `--romantic`, `--energy`, `--tranquil`,
+`--dramatic`.
+
+<div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "16px", margin: "24px 0" }}>
+  {[
+    { name: "Essence", hex: "#E8B98A", role: "Skin · approachable", var: "--essence" },
+    { name: "Romantic", hex: "#B71C2A", role: "Vitality · motion", var: "--romantic" },
+    { name: "Energy", hex: "#2E7D52", role: "Eye · trust", var: "--energy" },
+    { name: "Tranquil", hex: "#00897B", role: "Mellow · listening", var: "--tranquil" },
+    { name: "Dramatic", hex: "#1A3A8F", role: "Spotlight · selling", var: "--dramatic" },
+  ].map((c) => (
+    <div key={c.name} style={{ border: "1.5px solid #1B2A52", borderRadius: "12px", overflow: "hidden" }}>
+      <div style={{ height: "110px", background: c.hex }} />
+      <div style={{ padding: "14px 16px", fontFamily: "monospace", fontSize: "13px" }}>
+        <strong style={{ display: "block", fontSize: "16px", fontFamily: "sans-serif" }}>{c.name}</strong>
+        <span>{c.role}</span>
+        <br />
+        <code>{c.var}: {c.hex}</code>
+      </div>
+    </div>
+  ))}
+</div>
+
+## Usage
+
+- **Energy** carries links and "trust" moments — first impressions, new
+  business.
+- **Romantic** is the vitality color — hover states, "live" status,
+  date-night energy. Never pair it directly on `--dramatic` navy (see
+  the Light & Dark doc, rule ii).
+- **Dramatic** is reserved for fixed color plates (the dispatch plate)
+  and "own the room" authority moments — it does not become a
+  background tint elsewhere.
+- **Tranquil** reads as calm/difficult-conversation register — used
+  sparingly.
+- **Essence** is the approachable warm neutral-adjacent accent — kicker
+  text on dark plates, default badge fill.

@@ -1,0 +1,48 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Docs/Light &amp; Dark" />
+
+# Light & Dark
+
+The palette does not change in the dark theme; the *roles* do. Six
+semantic tokens swap, and the two colors that carry text — Energy and
+Romantic — hand off to Essence and Gold, which hold their contrast on
+navy.
+
+| Token | Light | Dark |
+|---|---|---|
+| `--paper` | Optic white | Midnight navy |
+| `--ink` | Midnight navy | Optic white |
+| `--muted` | Everyday aubergine | Essence |
+| `--hair-c` | Midnight navy | Optic white 42% |
+| `--link` | Energy | Essence |
+| `--link-h` | Romantic | Gold |
+| `--plate-stroke` *(this library only)* | Dramatic | Optic white 42% |
+
+## Rules
+
+**i. Cobalt stays cobalt.** The dispatch plate (`<msb-dispatch>`) is
+Dramatic in both themes — only its keyline changes, to optic white at
+42%. A color plate is a fixed field, not a themed surface. This is why
+`--plate-stroke` exists as its own token rather than reusing `--hair-c`.
+
+**ii. Accents follow the link.** Anything Romantic that carries
+meaning goes Essence in the dark theme. Romantic on navy is the one
+pairing that fails.
+
+**iii. System preference is the default.** Auto follows the OS; Light
+and Dark are explicit and persist. Three segments (`<msb-mode-toggle>`),
+never a two-state switch.
+
+**iv. Measured, not assumed.** Navy on paper 12.5:1 · Romantic on
+paper 6.0:1 · Energy on paper 4.6:1 · optic white on navy 12.5:1 ·
+Essence on navy 7.6:1 · Gold on navy 5.5:1. Every text pairing clears
+WCAG AA at body size.
+
+## How it's implemented
+
+`tokens.css` defines the light values on `:root`, swaps them under
+`@media (prefers-color-scheme: dark)`, and lets an explicit
+`[data-theme="light"]`/`[data-theme="dark"]` attribute on `<html>`
+override either direction — that's exactly what `<msb-mode-toggle>`
+manages for you by default.

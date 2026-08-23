@@ -1,0 +1,17 @@
+import { Meta } from "@storybook/blocks";
+import tokensSource from "../tokens/tokens.css?raw";
+
+<Meta title="Docs/Tokens" />
+
+# Tokens
+
+Copy into any stylesheet, or `import '@msbfyi/style-guide/tokens.css'`
+directly. Ten colors, four families, one corner treatment, six semantic
+tokens that swap for the dark theme.
+
+The block below is the actual, live contents of `tokens.css` (imported
+at build time) — it can't drift out of sync with what ships.
+
+<pre style={{ background: "#1B2A52", color: "#F5F5F0", borderRadius: "16px", padding: "24px", fontFamily: "monospace", fontSize: "12.5px", lineHeight: 1.7, overflowX: "auto", whiteSpace: "pre" }}>
+  {tokensSource}
+</pre>

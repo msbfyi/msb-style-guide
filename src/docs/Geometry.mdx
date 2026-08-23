@@ -1,0 +1,50 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Docs/Geometry" />
+
+# Geometry
+
+The chamfer replaces the capsule. A clipped corner reads as
+constructed; a rounded one reads as soft — this system is the former.
+
+<div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "14px", margin: "24px 0" }}>
+  {[
+    { label: "6px — --c-sm", c: "6px", note: "Under 30px tall: badges, date chips" },
+    { label: "11px — --c (default)", c: "11px", note: "Buttons, pills, chips, blocks" },
+    { label: "16px — --c-lg", c: "16px", note: "Panels: cards, plates" },
+  ].map((s) => (
+    <div key={s.label}>
+      <div
+        style={{
+          background: "#E8B98A",
+          color: "#1B2A52",
+          height: "118px",
+          display: "grid",
+          placeItems: "center",
+          fontFamily: "monospace",
+          fontWeight: 700,
+          clipPath: `polygon(${s.c} 0,100% 0,100% calc(100% - ${s.c}),calc(100% - ${s.c}) 100%,0 100%,0 ${s.c})`,
+        }}
+      >
+        {s.c}
+      </div>
+      <div style={{ fontFamily: "'Barlow Condensed'", textTransform: "uppercase", letterSpacing: "0.16em", fontSize: "11px", marginTop: "9px", opacity: 0.75 }}>
+        {s.label}
+        <div style={{ fontFamily: "sans-serif", textTransform: "none", letterSpacing: "normal", fontSize: "13px", marginTop: "4px" }}>{s.note}</div>
+      </div>
+    </div>
+  ))}
+</div>
+
+## The keyline
+
+Every chamfered shape carries a 1.5px keyline — drawn as an inverted
+(evenodd) clip-path on a second layer, not a CSS `border` (a real
+border can't follow a clip-path corner). See `chamferHost` /
+`chamferRules()` in `src/internal/chamfer.ts` for the implementation
+every component shares.
+
+## Retired
+
+`--pill` (999px fully-rounded) is kept in the token sheet for legacy
+reference only — new work uses the chamfer, not the capsule.
