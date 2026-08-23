@@ -18,7 +18,14 @@ import type { BadgeVariant } from "../badge/badge.js";
  *   No property equivalent — covers are visual, not simple text.
  * @slot pin - Positioned top-left over the cover. Falls back to an
  *   `<msb-badge>` built from `pinLabel`/`pinVariant` if not provided.
- * @slot - Default slot: body content. Falls back to `heading`/`body`.
+ * @slot body - Body content. Falls back to `heading`/`body`. Named
+ *   deliberately, not the default slot — a named slot only receives
+ *   nodes explicitly marked `slot="body"`, so it can't be accidentally
+ *   "occupied" by stray whitespace text nodes between sibling elements
+ *   in the light DOM (which the unnamed default slot always is, since
+ *   whitespace text nodes can't carry a `slot` attribute and so always
+ *   fall through to the default slot — silently suppressing its
+ *   fallback content even when you never intended to provide any).
  * @slot footer - Footer row, `justify-content: space-between`. Falls
  *   back to `footerLeft`/`footerRight`.
  */
@@ -82,7 +89,7 @@ export class MsbCard extends LitElement {
     `,
   ];
 
-  /** Fallback heading, rendered in the default slot if nothing is assigned. */
+  /** Fallback heading, rendered in the "body" slot if nothing is assigned. */
   @property() heading = "";
 
   /** Fallback body text, rendered alongside `heading`. */
@@ -113,7 +120,7 @@ export class MsbCard extends LitElement {
         </span>
       </div>
       <div class="bd">
-        <slot>
+        <slot name="body">
           ${this.heading ? html`<h4>${this.heading}</h4>` : null}
           ${this.body ? html`<p>${this.body}</p>` : null}
         </slot>

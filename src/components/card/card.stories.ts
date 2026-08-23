@@ -84,8 +84,8 @@ export const CustomSlots: Story = {
         style="width:100%;height:100%;background:repeating-conic-gradient(var(--everyday) 0 25%, var(--paper) 0 50%) 0 0/20px 20px"
       ></div>
       <msb-badge slot="pin" variant="tranquil">Custom</msb-badge>
-      <h3>A slotted &lt;h3&gt; instead of &lt;h4&gt;</h3>
-      <p>Any markup is valid here — this isn't limited to a single paragraph.</p>
+      <h3 slot="body">A slotted &lt;h3&gt; instead of &lt;h4&gt;</h3>
+      <p slot="body">Any markup is valid here — this isn't limited to a single paragraph.</p>
       <span slot="footer">Left</span>
       <span slot="footer">Right</span>
     </msb-card>
