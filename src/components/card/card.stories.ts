@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
+import { expect } from "@storybook/test";
 import { html } from "lit";
 import "./card.js";
 import "../badge/badge.js";
@@ -92,6 +93,15 @@ export const NoPinOrFooter: Story = {
       ></div>
     </msb-card>
   `,
+  play: async ({ canvasElement }) => {
+    const card = canvasElement.querySelector("msb-card")!;
+    await card.updateComplete;
+    const footer = card.shadowRoot!.querySelector(".ft")!;
+    // Regression guard for the empty-footer-strip bug this shape of card
+    // used to have (see card.ts's git history) — asserted here as an
+    // interaction test, not just eyeballed in the Docs view.
+    expect(footer.hasAttribute("hidden")).toBe(true);
+  },
 };
 
 export const CustomSlots: Story = {
@@ -111,7 +121,9 @@ export const CustomSlots: Story = {
       ></div>
       <msb-badge slot="pin" variant="tranquil">Custom</msb-badge>
       <h3 slot="body">A slotted &lt;h3&gt; instead of &lt;h4&gt;</h3>
-      <p slot="body">Any markup is valid here — this isn't limited to a single paragraph.</p>
+      <p slot="body">
+        Any markup is valid here — this isn't limited to a single paragraph.
+      </p>
       <span slot="footer">Left</span>
       <span slot="footer">Right</span>
     </msb-card>

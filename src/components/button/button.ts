@@ -35,7 +35,9 @@ export class MsbButton extends LitElement {
         display: inline-flex;
         align-items: center;
         gap: 9px;
-        transition: background 0.12s, color 0.12s;
+        transition:
+          background 0.12s,
+          color 0.12s;
         --vs-stroke: var(--energy, #2e7d52);
         font: inherit;
       }

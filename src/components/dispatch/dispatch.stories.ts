@@ -28,13 +28,9 @@ type Story = StoryObj;
 
 export const Default: Story = {
   render: (args) => html`
-    <msb-dispatch
-      style="max-width:420px"
-      kicker=${args.kicker}
-      issue=${args.issue}
-    >
-      Essence for the kicker and the sub, optic white for the headline. The
-      plate keeps its colour in both themes.
+    <msb-dispatch style="max-width:420px" kicker=${args.kicker} issue=${args.issue}>
+      Essence for the kicker and the sub, optic white for the headline. The plate keeps
+      its colour in both themes.
     </msb-dispatch>
   `,
 };

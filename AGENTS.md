@@ -22,6 +22,54 @@ branch first.
 - `npm run build` — library build to `dist/`
 - `npm run build-storybook` — static Storybook to `storybook-static/`
 - `npm run typecheck`
+- `npm run lint` / `npm run lint:fix`
+- `npm run format` / `npm run format:check` — Prettier
+- `npm test` — component unit tests (`@web/test-runner` +
+  `@open-wc/testing`, real Chromium, one `<name>.test.ts` beside each
+  component)
+- `npm run test:storybook` — builds Storybook, serves it, runs
+  `@storybook/test-runner`: executes every story's `play` function
+  (interaction tests) and a visual-regression screenshot comparison
+  against the baselines in `.storybook/__image_snapshots__/`
+- `npm run test:storybook:update` — same, but regenerates the visual
+  baselines instead of comparing against them. Run this after an
+  _intentional_ visual change and commit the updated PNGs. Never run it
+  to make a failing test pass without first confirming the new
+  rendering is actually correct — that defeats the entire point.
+
+## Testing philosophy — read this before skipping any of it
+
+Every one of these layers exists because a specific real bug shipped
+past the previous layer during this repo's early development:
+
+- **Unit tests** (`npm test`) catch structural/logic bugs in a
+  component's own shadow DOM — slot fallback behavior, property
+  reflection, state changes. `card.test.ts` in particular is worth
+  reading before writing a new slot-fallback pattern elsewhere: it
+  documents two real gotchas discovered the hard way — `::slotted()`
+  never matches a slot's own fallback content, and asserting
+  `.to.be.null` on a value that might be a real (non-null) DOM node
+  can make chai hang for minutes constructing the failure message
+  instead of failing fast. Prefer `expect(x === null).to.be.true` over
+  `expect(x).to.be.null` whenever `x` could be a DOM node.
+- **Interaction tests** (Storybook `play` functions, run by
+  `test:storybook`) catch bugs unit tests can't reach — real click
+  events, real `slotchange` timing, cross-shadow-boundary event
+  composition — in the same environment a consumer would actually use
+  the component.
+- **Visual regression** (also `test:storybook`, via
+  `jest-image-snapshot`) catches rendering bugs that don't throw and
+  don't fail an assertion: unreadable text, a component collapsing to
+  zero size, a layout running inline instead of stacking. Every one of
+  those happened in this repo's Storybook and was only caught by a
+  human looking at a screenshot, before this existed. Screenshots are
+  scoped to `#storybook-root` (the story's own rendered element), not
+  the full page — a full-page screenshot dilutes a small component's
+  regression to well under any sane percentage threshold; a thin
+  divider line disappearing is a tiny fraction of a full page but a
+  large fraction of the component's own bounding box.
+- **Lint** (`eslint-plugin-lit`, `eslint-plugin-wc`) catches Lit/
+  custom-element-specific mistakes generic TypeScript linting won't.
 
 ## Conventions
 

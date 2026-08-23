@@ -40,7 +40,9 @@ export class MsbNav extends LitElement {
         font-weight: 600;
         color: var(--ink, #1b2a52);
         padding: 9px 17px;
-        transition: background 0.12s, color 0.12s;
+        transition:
+          background 0.12s,
+          color 0.12s;
       }
       ::slotted(a[active]) {
         background: var(--energy, #2e7d52);

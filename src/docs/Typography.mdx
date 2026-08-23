@@ -6,30 +6,164 @@ import { Meta } from "@storybook/blocks";
 
 Four families, each with one job. No family substitutes for another.
 
-<div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))", gap: "14px", margin: "24px 0" }}>
-  <div style={{ border: "1.5px solid #1B2A52", borderRadius: "16px", padding: "22px", background: "#F5F5F0", color: "#1B2A52" }}>
-    <div style={{ fontFamily: "'Barlow Condensed'", textTransform: "uppercase", letterSpacing: "0.16em", fontSize: "11px", color: "#3B1F2B" }}>Display</div>
+<div
+  style={{
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))",
+    gap: "14px",
+    margin: "24px 0",
+  }}
+>
+  <div
+    style={{
+      border: "1.5px solid #1B2A52",
+      borderRadius: "16px",
+      padding: "22px",
+      background: "#F5F5F0",
+      color: "#1B2A52",
+    }}
+  >
+    <div
+      style={{
+        fontFamily: "'Barlow Condensed'",
+        textTransform: "uppercase",
+        letterSpacing: "0.16em",
+        fontSize: "11px",
+        color: "#3B1F2B",
+      }}
+    >
+      Display
+    </div>
     <div style={{ fontWeight: 700, fontSize: "20px", margin: "4px 0" }}>Krona One</div>
-    <div style={{ fontFamily: "'Krona One'", fontSize: "34px", lineHeight: 1.15 }}>Aa Bb 12</div>
-    <div style={{ fontFamily: "monospace", fontSize: "10.5px", color: "#3B1F2B", marginTop: "6px" }}>weight 400 only</div>
+    <div style={{ fontFamily: "'Krona One'", fontSize: "34px", lineHeight: 1.15 }}>
+      Aa Bb 12
+    </div>
+    <div
+      style={{
+        fontFamily: "monospace",
+        fontSize: "10.5px",
+        color: "#3B1F2B",
+        marginTop: "6px",
+      }}
+    >
+      weight 400 only
+    </div>
   </div>
-  <div style={{ border: "1.5px solid #1B2A52", borderRadius: "16px", padding: "22px", background: "#F5F5F0", color: "#1B2A52" }}>
-    <div style={{ fontFamily: "'Barlow Condensed'", textTransform: "uppercase", letterSpacing: "0.16em", fontSize: "11px", color: "#3B1F2B" }}>Body</div>
+  <div
+    style={{
+      border: "1.5px solid #1B2A52",
+      borderRadius: "16px",
+      padding: "22px",
+      background: "#F5F5F0",
+      color: "#1B2A52",
+    }}
+  >
+    <div
+      style={{
+        fontFamily: "'Barlow Condensed'",
+        textTransform: "uppercase",
+        letterSpacing: "0.16em",
+        fontSize: "11px",
+        color: "#3B1F2B",
+      }}
+    >
+      Body
+    </div>
     <div style={{ fontWeight: 700, fontSize: "20px", margin: "4px 0" }}>DM Sans</div>
-    <div style={{ fontFamily: "'DM Sans'", fontSize: "34px", lineHeight: 1.15 }}>Aa Bb 12</div>
-    <div style={{ fontFamily: "monospace", fontSize: "10.5px", color: "#3B1F2B", marginTop: "6px" }}>400/500/700/900, italic 400/700</div>
+    <div style={{ fontFamily: "'DM Sans'", fontSize: "34px", lineHeight: 1.15 }}>
+      Aa Bb 12
+    </div>
+    <div
+      style={{
+        fontFamily: "monospace",
+        fontSize: "10.5px",
+        color: "#3B1F2B",
+        marginTop: "6px",
+      }}
+    >
+      400/500/700/900, italic 400/700
+    </div>
   </div>
-  <div style={{ border: "1.5px solid #1B2A52", borderRadius: "16px", padding: "22px", background: "#F5F5F0", color: "#1B2A52" }}>
-    <div style={{ fontFamily: "'Barlow Condensed'", textTransform: "uppercase", letterSpacing: "0.16em", fontSize: "11px", color: "#3B1F2B" }}>Condensed</div>
-    <div style={{ fontWeight: 700, fontSize: "20px", margin: "4px 0" }}>Barlow Condensed</div>
-    <div style={{ fontFamily: "'Barlow Condensed'", textTransform: "uppercase", fontSize: "30px", lineHeight: 1.15 }}>Aa Bb 12</div>
-    <div style={{ fontFamily: "monospace", fontSize: "10.5px", color: "#3B1F2B", marginTop: "6px" }}>500/600/700 — labels, nav, buttons</div>
+  <div
+    style={{
+      border: "1.5px solid #1B2A52",
+      borderRadius: "16px",
+      padding: "22px",
+      background: "#F5F5F0",
+      color: "#1B2A52",
+    }}
+  >
+    <div
+      style={{
+        fontFamily: "'Barlow Condensed'",
+        textTransform: "uppercase",
+        letterSpacing: "0.16em",
+        fontSize: "11px",
+        color: "#3B1F2B",
+      }}
+    >
+      Condensed
+    </div>
+    <div style={{ fontWeight: 700, fontSize: "20px", margin: "4px 0" }}>
+      Barlow Condensed
+    </div>
+    <div
+      style={{
+        fontFamily: "'Barlow Condensed'",
+        textTransform: "uppercase",
+        fontSize: "30px",
+        lineHeight: 1.15,
+      }}
+    >
+      Aa Bb 12
+    </div>
+    <div
+      style={{
+        fontFamily: "monospace",
+        fontSize: "10.5px",
+        color: "#3B1F2B",
+        marginTop: "6px",
+      }}
+    >
+      500/600/700 — labels, nav, buttons
+    </div>
   </div>
-  <div style={{ border: "1.5px solid #1B2A52", borderRadius: "16px", padding: "22px", background: "#F5F5F0", color: "#1B2A52" }}>
-    <div style={{ fontFamily: "'Barlow Condensed'", textTransform: "uppercase", letterSpacing: "0.16em", fontSize: "11px", color: "#3B1F2B" }}>Mono</div>
-    <div style={{ fontWeight: 700, fontSize: "20px", margin: "4px 0" }}>JetBrains Mono</div>
-    <div style={{ fontFamily: "monospace", fontSize: "24px", lineHeight: 1.15 }}>Aa Bb 12</div>
-    <div style={{ fontFamily: "monospace", fontSize: "10.5px", color: "#3B1F2B", marginTop: "6px" }}>400/500/700 — dates, code, tokens</div>
+  <div
+    style={{
+      border: "1.5px solid #1B2A52",
+      borderRadius: "16px",
+      padding: "22px",
+      background: "#F5F5F0",
+      color: "#1B2A52",
+    }}
+  >
+    <div
+      style={{
+        fontFamily: "'Barlow Condensed'",
+        textTransform: "uppercase",
+        letterSpacing: "0.16em",
+        fontSize: "11px",
+        color: "#3B1F2B",
+      }}
+    >
+      Mono
+    </div>
+    <div style={{ fontWeight: 700, fontSize: "20px", margin: "4px 0" }}>
+      JetBrains Mono
+    </div>
+    <div style={{ fontFamily: "monospace", fontSize: "24px", lineHeight: 1.15 }}>
+      Aa Bb 12
+    </div>
+    <div
+      style={{
+        fontFamily: "monospace",
+        fontSize: "10.5px",
+        color: "#3B1F2B",
+        marginTop: "6px",
+      }}
+    >
+      400/500/700 — dates, code, tokens
+    </div>
   </div>
 </div>
 

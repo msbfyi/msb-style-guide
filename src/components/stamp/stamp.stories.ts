@@ -10,8 +10,7 @@ const meta: Meta = {
   parameters: {
     docs: {
       description: {
-        component:
-          "Romantic label · mono body. From Style Guide v3 §07 — Notice stamp.",
+        component: "Romantic label · mono body. From Style Guide v3 §07 — Notice stamp.",
       },
     },
   },
@@ -23,8 +22,7 @@ type Story = StoryObj;
 export const Default: Story = {
   render: (args) => html`
     <msb-stamp style="max-width:480px" label=${args.label}>
-      This site is a constant work in progress and many things will break as
-      I experiment.
+      This site is a constant work in progress and many things will break as I experiment.
     </msb-stamp>
   `,
 };

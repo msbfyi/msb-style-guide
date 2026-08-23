@@ -9,39 +9,39 @@
 
 :root {
   /* palette */
-  --essence: #E8B98A;   /* skin · approachable */
-  --romantic: #B71C2A;  /* vitality · motion */
-  --energy: #2E7D52;    /* eye · trust */
-  --tranquil: #00897B;  /* mellow · listening */
-  --dramatic: #1A3A8F;  /* spotlight · selling */
+  --essence: #e8b98a; /* skin · approachable */
+  --romantic: #b71c2a; /* vitality · motion */
+  --energy: #2e7d52; /* eye · trust */
+  --tranquil: #00897b; /* mellow · listening */
+  --dramatic: #1a3a8f; /* spotlight · selling */
 
   /* neutrals + metals */
-  --formal: #1B2A52;    /* 1st base · replaces black */
-  --everyday: #3B1F2B;  /* 2nd base · replaces brown */
-  --light: #F5F5F0;     /* 3rd base · optic white */
-  --silver: #C0C0C0;
-  --gold: #BFA060;       /* accent metal · never solo */
+  --formal: #1b2a52; /* 1st base · replaces black */
+  --everyday: #3b1f2b; /* 2nd base · replaces brown */
+  --light: #f5f5f0; /* 3rd base · optic white */
+  --silver: #c0c0c0;
+  --gold: #bfa060; /* accent metal · never solo */
 
   /* type */
-  --display: 'Krona One', system-ui, sans-serif;
-  --body: 'DM Sans', system-ui, sans-serif;
-  --cond: 'Barlow Condensed', system-ui, sans-serif;
-  --mono: 'JetBrains Mono', ui-monospace, monospace;
+  --display: "Krona One", system-ui, sans-serif;
+  --body: "DM Sans", system-ui, sans-serif;
+  --cond: "Barlow Condensed", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
 
   /* geometry — the chamfer, not the capsule */
-  --c: 11px;     /* default · buttons, pills, chips, blocks */
-  --c-sm: 6px;   /* under 30px tall · badges, date chips */
-  --c-lg: 16px;  /* panels · cards, plates */
+  --c: 11px; /* default · buttons, pills, chips, blocks */
+  --c-sm: 6px; /* under 30px tall · badges, date chips */
+  --c-lg: 16px; /* panels · cards, plates */
   --hair: 1.5px solid var(--formal);
   --pill: 999px; /* retired · legacy only */
 
   /* semantic — these swap for dark, never the palette itself */
-  --paper: #F5F5F0;
-  --ink: #1B2A52;
-  --muted: #3B1F2B;
-  --hair-c: #1B2A52;
-  --link: #2E7D52;
-  --link-h: #B71C2A;
+  --paper: #f5f5f0;
+  --ink: #1b2a52;
+  --muted: #3b1f2b;
+  --hair-c: #1b2a52;
+  --link: #2e7d52;
+  --link-h: #b71c2a;
 
   /* Fixed color plates (e.g. <msb-dispatch>) keep their own fill in
      both themes — "cobalt stays cobalt" — only their keyline swaps. */
@@ -51,32 +51,32 @@
 /* Auto: follow OS preference */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #1B2A52;
-    --ink: #F5F5F0;
-    --muted: #E8B98A;
-    --hair-c: rgba(245, 245, 240, .42);
-    --link: #E8B98A;
-    --link-h: #BFA060;
-    --plate-stroke: rgba(245, 245, 240, .42);
+    --paper: #1b2a52;
+    --ink: #f5f5f0;
+    --muted: #e8b98a;
+    --hair-c: rgba(245, 245, 240, 0.42);
+    --link: #e8b98a;
+    --link-h: #bfa060;
+    --plate-stroke: rgba(245, 245, 240, 0.42);
   }
 }
 
 /* Explicit: persisted user choice wins in either direction */
 :root[data-theme="dark"] {
-  --paper: #1B2A52;
-  --ink: #F5F5F0;
-  --muted: #E8B98A;
-  --hair-c: rgba(245, 245, 240, .42);
-  --link: #E8B98A;
-  --link-h: #BFA060;
-  --plate-stroke: rgba(245, 245, 240, .42);
+  --paper: #1b2a52;
+  --ink: #f5f5f0;
+  --muted: #e8b98a;
+  --hair-c: rgba(245, 245, 240, 0.42);
+  --link: #e8b98a;
+  --link-h: #bfa060;
+  --plate-stroke: rgba(245, 245, 240, 0.42);
 }
 :root[data-theme="light"] {
-  --paper: #F5F5F0;
-  --ink: #1B2A52;
-  --muted: #3B1F2B;
-  --hair-c: #1B2A52;
-  --link: #2E7D52;
-  --link-h: #B71C2A;
+  --paper: #f5f5f0;
+  --ink: #1b2a52;
+  --muted: #3b1f2b;
+  --hair-c: #1b2a52;
+  --link: #2e7d52;
+  --link-h: #b71c2a;
   --plate-stroke: var(--dramatic);
 }

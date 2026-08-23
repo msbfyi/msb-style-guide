@@ -77,9 +77,7 @@ export class MsbEntry extends LitElement {
   render() {
     return html`
       <div class="top">
-        <a class="ttl" href=${this.href}
-          ><slot>${this.label}</slot></a
-        >
+        <a class="ttl" href=${this.href}><slot>${this.label}</slot></a>
         <span class="meta">
           <span class="dt">${this.date}</span>
           ${this.hasUpdate ? html`<span class="upd">Update</span>` : null}

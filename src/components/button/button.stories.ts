@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
+import { expect, fn } from "@storybook/test";
 import { html } from "lit";
 import "./button.js";
 
@@ -21,8 +22,7 @@ const meta: Meta = {
   parameters: {
     docs: {
       description: {
-        component:
-          "Chamfer 11 · 12/26 padding. From Style Guide v3 §07 — Buttons.",
+        component: "Chamfer 11 · 12/26 padding. From Style Guide v3 §07 — Buttons.",
       },
     },
   },
@@ -33,13 +33,24 @@ type Story = StoryObj;
 
 export const Primary: Story = {
   render: (args) => html`
-    <msb-button
-      variant=${args.variant}
-      ?dot=${args.dot}
-      ?disabled=${args.disabled}
+    <msb-button variant=${args.variant} ?dot=${args.dot} ?disabled=${args.disabled}
       >Primary</msb-button
     >
   `,
+};
+
+export const ClickFiresARealEvent: Story = {
+  render: () => html`<msb-button>Click me</msb-button>`,
+  play: async ({ canvasElement }) => {
+    const button = canvasElement.querySelector("msb-button")!;
+    const onClick = fn();
+    button.addEventListener("click", onClick);
+
+    const inner = button.shadowRoot!.querySelector("button")!;
+    inner.click();
+
+    expect(onClick).toHaveBeenCalledOnce();
+  },
 };
 
 export const AllVariants: Story = {

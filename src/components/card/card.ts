@@ -152,9 +152,11 @@ export class MsbCard extends LitElement {
         <slot name="cover"></slot>
         <span class="pin">
           <slot name="pin">
-            ${this.pinLabel
-              ? html`<msb-badge variant=${this.pinVariant}>${this.pinLabel}</msb-badge>`
-              : null}
+            ${
+              this.pinLabel
+                ? html`<msb-badge variant=${this.pinVariant}>${this.pinLabel}</msb-badge>`
+                : null
+            }
           </slot>
         </span>
       </div>
@@ -166,9 +168,11 @@ export class MsbCard extends LitElement {
       </div>
       <div class="ft" ?hidden=${!this.showFooter}>
         <slot name="footer" @slotchange=${this.handleFooterSlotChange}>
-          ${this.footerLeft || this.footerRight
-            ? html`<span>${this.footerLeft}</span><span>${this.footerRight}</span>`
-            : null}
+          ${
+            this.footerLeft || this.footerRight
+              ? html`<span>${this.footerLeft}</span><span>${this.footerRight}</span>`
+              : null
+          }
         </slot>
       </div>
     `;
