@@ -4,7 +4,7 @@ import { Meta } from "@storybook/blocks";
 
 # The Contrast Principle
 
-<blockquote style={{ borderLeft: "5px solid #B71C2A", paddingLeft: "20px", fontSize: "22px", fontWeight: 700 }}>
+<blockquote style={{ borderLeft: "5px solid #B71C2A", paddingLeft: "20px", fontSize: "22px", fontWeight: 700, color: "#1B2A52" }}>
   Contrast is the whole language. Two things, hard boundary, no
   blending.
 </blockquote>
@@ -26,9 +26,19 @@ are no gradients and no drop shadows anywhere in this system.
 
 ## Do / don't
 
-| | Verdict |
-|---|---|
-| Romantic text on Paper | **Yes** — 6.0:1 contrast, clears WCAG AA |
-| Romantic text on Dramatic | **No** — the one pairing that fails; use Essence instead |
-| Energy fill with Optic White text | **Yes** — the default button treatment |
-| Two accent colors touching with no neutral between them | **No** — always separate accents with a neutral or a hairline |
+<table style={{ width: "100%", borderCollapse: "collapse", margin: "20px 0", color: "#1B2A52" }}>
+  <tbody>
+    {[
+      ["Romantic text on Paper", "Yes", "6.0:1 contrast, clears WCAG AA"],
+      ["Romantic text on Dramatic", "No", "the one pairing that fails; use Essence instead"],
+      ["Energy fill with Optic White text", "Yes", "the default button treatment"],
+      ["Two accent colors touching with no neutral between them", "No", "always separate accents with a neutral or a hairline"],
+    ].map((row) => (
+      <tr key={row[0]} style={{ borderBottom: "1px solid rgba(27,42,82,0.2)" }}>
+        <td style={{ padding: "10px 16px" }}>{row[0]}</td>
+        <td style={{ padding: "10px 16px", fontWeight: 700, color: row[1] === "Yes" ? "#2E7D52" : "#B71C2A" }}>{row[1]}</td>
+        <td style={{ padding: "10px 16px", color: "#3B1F2B" }}>{row[2]}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>

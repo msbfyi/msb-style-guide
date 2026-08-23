@@ -22,7 +22,7 @@ type Story = StoryObj;
 
 export const Default: Story = {
   render: (args) => html`
-    <msb-stamp style="max-width:480px;display:grid" label=${args.label}>
+    <msb-stamp style="max-width:480px" label=${args.label}>
       This site is a constant work in progress and many things will break as
       I experiment.
     </msb-stamp>

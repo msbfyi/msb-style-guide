@@ -7,13 +7,31 @@ import { Meta } from "@storybook/blocks";
 The whole system compressed into one decision: what is this situation
 asking of me?
 
-| Situation | Wear |
-|---|---|
-| First impression / new business | 🟢 Energy — green |
-| Authority / own the room | 🔵 Dramatic — cobalt |
-| Approachable / sales call | 🟠 Essence — butterscotch |
-| Difficult conversation | 🔵 Tranquil — teal |
-| Date night / high energy | 🔴 Romantic — red |
-| Formal / black tie | ⚫ 1st Base — midnight navy |
-| Casual / summer | ⚪ 3rd Base — optic white |
-| **Always** | **Contrast. Never blend.** |
+<table style={{ width: "100%", borderCollapse: "collapse", margin: "20px 0", color: "#1B2A52" }}>
+  <thead>
+    <tr style={{ borderBottom: "1.5px solid #1B2A52" }}>
+      <th style={{ textAlign: "left", padding: "12px 16px" }}>Situation</th>
+      <th style={{ textAlign: "left", padding: "12px 16px" }}>Wear</th>
+    </tr>
+  </thead>
+  <tbody>
+    {[
+      ["First impression / new business", "🟢 Energy — green"],
+      ["Authority / own the room", "🔵 Dramatic — cobalt"],
+      ["Approachable / sales call", "🟠 Essence — butterscotch"],
+      ["Difficult conversation", "🔵 Tranquil — teal"],
+      ["Date night / high energy", "🔴 Romantic — red"],
+      ["Formal / black tie", "⚫ 1st Base — midnight navy"],
+      ["Casual / summer", "⚪ 3rd Base — optic white"],
+    ].map((row) => (
+      <tr key={row[0]} style={{ borderBottom: "1px solid rgba(27,42,82,0.2)" }}>
+        <td style={{ padding: "10px 16px" }}>{row[0]}</td>
+        <td style={{ padding: "10px 16px" }}>{row[1]}</td>
+      </tr>
+    ))}
+    <tr style={{ background: "#B71C2A", color: "#F5F5F0" }}>
+      <td style={{ padding: "12px 16px", fontWeight: 700 }}>Always</td>
+      <td style={{ padding: "12px 16px", fontWeight: 700 }}>Contrast. Never blend.</td>
+    </tr>
+  </tbody>
+</table>

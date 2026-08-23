@@ -35,7 +35,7 @@ type Story = StoryObj;
 export const Default: Story = {
   render: (args) => html`
     <msb-input
-      style="max-width:320px;display:block"
+      style="max-width:320px"
       label=${args.label}
       type=${args.type}
       placeholder=${args.placeholder}

@@ -9,15 +9,32 @@ semantic tokens swap, and the two colors that carry text — Energy and
 Romantic — hand off to Essence and Gold, which hold their contrast on
 navy.
 
-| Token | Light | Dark |
-|---|---|---|
-| `--paper` | Optic white | Midnight navy |
-| `--ink` | Midnight navy | Optic white |
-| `--muted` | Everyday aubergine | Essence |
-| `--hair-c` | Midnight navy | Optic white 42% |
-| `--link` | Energy | Essence |
-| `--link-h` | Romantic | Gold |
-| `--plate-stroke` *(this library only)* | Dramatic | Optic white 42% |
+<table style={{ width: "100%", borderCollapse: "collapse", margin: "20px 0", color: "#1B2A52" }}>
+  <thead>
+    <tr style={{ borderBottom: "1.5px solid #1B2A52" }}>
+      <th style={{ textAlign: "left", padding: "12px 16px" }}>Token</th>
+      <th style={{ textAlign: "left", padding: "12px 16px" }}>Light</th>
+      <th style={{ textAlign: "left", padding: "12px 16px" }}>Dark</th>
+    </tr>
+  </thead>
+  <tbody>
+    {[
+      ["--paper", "Optic white", "Midnight navy"],
+      ["--ink", "Midnight navy", "Optic white"],
+      ["--muted", "Everyday aubergine", "Essence"],
+      ["--hair-c", "Midnight navy", "Optic white 42%"],
+      ["--link", "Energy", "Essence"],
+      ["--link-h", "Romantic", "Gold"],
+      ["--plate-stroke (this library only)", "Dramatic", "Optic white 42%"],
+    ].map((row) => (
+      <tr key={row[0]} style={{ borderBottom: "1px solid rgba(27,42,82,0.2)" }}>
+        <td style={{ padding: "10px 16px", fontFamily: "monospace", fontSize: "13px" }}>{row[0]}</td>
+        <td style={{ padding: "10px 16px" }}>{row[1]}</td>
+        <td style={{ padding: "10px 16px" }}>{row[2]}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
 
 ## Rules
 
