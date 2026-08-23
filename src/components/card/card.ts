@@ -1,17 +1,26 @@
 import { LitElement, css, html } from "lit";
-import { customElement } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 import { chamferHost } from "../../internal/chamfer.js";
+import "../badge/badge.js";
+import type { BadgeVariant } from "../badge/badge.js";
 
 /**
  * A pattern-cover card: an optional cover area (with an optional
  * pinned badge over it), a body, and a footer row.
  *
+ * The simple-content properties (`heading`, `body`, `pinLabel`,
+ * `footerLeft`, `footerRight`) cover the common case and are what
+ * Storybook's Controls panel drives. Each has a matching named slot
+ * for full custom markup — a slot with actual assigned content always
+ * wins over the property-driven fallback.
+ *
  * @slot cover - Cover content (e.g. an image, or a patterned `<div>`).
- * @slot pin - Positioned top-left over the cover — typically an
- *   `<msb-badge>`.
- * @slot - Default slot: body content (heading + text).
- * @slot footer - Footer row content, laid out `justify-content:
- *   space-between`.
+ *   No property equivalent — covers are visual, not simple text.
+ * @slot pin - Positioned top-left over the cover. Falls back to an
+ *   `<msb-badge>` built from `pinLabel`/`pinVariant` if not provided.
+ * @slot - Default slot: body content. Falls back to `heading`/`body`.
+ * @slot footer - Footer row, `justify-content: space-between`. Falls
+ *   back to `footerLeft`/`footerRight`.
  */
 @customElement("msb-card")
 export class MsbCard extends LitElement {
@@ -43,13 +52,15 @@ export class MsbCard extends LitElement {
         gap: 7px;
       }
       .bd ::slotted(h4),
-      .bd ::slotted(h3) {
+      .bd ::slotted(h3),
+      .bd h4 {
         font-family: var(--display, sans-serif);
         font-size: 16px;
         letter-spacing: -0.01em;
         margin: 0;
       }
-      .bd ::slotted(p) {
+      .bd ::slotted(p),
+      .bd p {
         font-size: 13px;
         color: var(--muted, #3b1f2b);
         line-height: 1.45;
@@ -71,14 +82,49 @@ export class MsbCard extends LitElement {
     `,
   ];
 
+  /** Fallback heading, rendered in the default slot if nothing is assigned. */
+  @property() heading = "";
+
+  /** Fallback body text, rendered alongside `heading`. */
+  @property() body = "";
+
+  /** Fallback pin badge label. Empty string renders no pin. */
+  @property({ attribute: "pin-label" }) pinLabel = "";
+
+  /** Fallback pin badge variant. */
+  @property({ attribute: "pin-variant" }) pinVariant: BadgeVariant = "romantic";
+
+  /** Fallback footer left-side text. */
+  @property({ attribute: "footer-left" }) footerLeft = "";
+
+  /** Fallback footer right-side text. */
+  @property({ attribute: "footer-right" }) footerRight = "";
+
   render() {
     return html`
       <div class="cov">
         <slot name="cover"></slot>
-        <span class="pin"><slot name="pin"></slot></span>
+        <span class="pin">
+          <slot name="pin">
+            ${this.pinLabel
+              ? html`<msb-badge variant=${this.pinVariant}>${this.pinLabel}</msb-badge>`
+              : null}
+          </slot>
+        </span>
       </div>
-      <div class="bd"><slot></slot></div>
-      <div class="ft"><slot name="footer"></slot></div>
+      <div class="bd">
+        <slot>
+          ${this.heading ? html`<h4>${this.heading}</h4>` : null}
+          ${this.body ? html`<p>${this.body}</p>` : null}
+        </slot>
+      </div>
+      <div class="ft">
+        <slot name="footer">
+          ${this.footerLeft || this.footerRight
+            ? html`<span>${this.footerLeft}</span><span>${this.footerRight}</span>`
+            : null}
+        </slot>
+      </div>
     `;
   }
 }
