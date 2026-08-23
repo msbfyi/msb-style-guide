@@ -52,9 +52,28 @@ branch first.
   `Docs/<Name>`. Component stories live beside their component and are
   titled `Components/<Name>`.
 
-## Commit messages
+## Commit messages — required, this is enforced by CI
 
-Follow [Conventional Commits](https://www.conventionalcommits.org/) —
-same convention as msb-blog. No release automation is wired up here
-yet (no release-please), so this is about clean history, not a CI
-requirement, for now.
+**Use [Conventional Commits](https://www.conventionalcommits.org/).**
+Same setup as msb-blog: [release-please](https://github.com/googleapis/release-please)
+(`.github/workflows/release-please.yml`) parses commit history on
+every push to `main` to generate `CHANGELOG.md` and cut version tags.
+A commit that doesn't follow this format is silently invisible to it.
+
+- `fix: ...` → patch
+- `feat: ...` → minor
+- `feat!: ...` or a `BREAKING CHANGE:` footer → major
+- `design: ...` → tracked, shown in the changelog (for changes to the
+  design system itself — tokens, chamfer geometry, palette — as
+  distinct from component code)
+- `docs:`, `chore:`, `refactor:`, `test:`, `ci:`, `build:` → tracked
+  but hidden from the changelog
+
+## Beta status
+
+`release-please-config.json` has `"prerelease": true` /
+`"prerelease-type": "beta"` — every release right now lands as
+`0.x.y-beta.N`, not a stable version. **Do not flip `prerelease` to
+`false`** unless the user explicitly asks to graduate to a full
+release; this is a deliberate, standing instruction, not a default to
+"fix" once things look stable.

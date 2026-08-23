@@ -34,8 +34,10 @@
   "devDependencies": {
     "@storybook/addon-a11y": "^8.4.7",
     "@storybook/addon-essentials": "^8.4.7",
+    "@types/markdown-it": "^14.1.2",
     "@storybook/web-components": "^8.4.7",
     "@storybook/web-components-vite": "^8.4.7",
+    "markdown-it": "^14.1.0",
     "storybook": "^8.4.7",
     "typescript": "^5.7.2",
     "vite": "^6.0.3",

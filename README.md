@@ -99,6 +99,19 @@ library-specific addition, `--plate-stroke`, for fixed color plates
 like `<msb-dispatch>` that keep their fill in both themes and only
 swap their keyline.
 
+## Versions
+
+Same setup as [msb-blog](https://github.com/msbfyi/msb-blog): commits
+follow [Conventional Commits](https://www.conventionalcommits.org/),
+[release-please](https://github.com/googleapis/release-please) opens a
+`chore(main): release ...` PR on every push to `main`, and merging that
+PR cuts the release (tags it, updates `CHANGELOG.md`).
+
+**This package is in beta.** Every release right now is a
+`0.x.y-beta.N` prerelease (`release-please-config.json` has
+`"prerelease": true`) — it stays that way until told otherwise, even
+once things look stable.
+
 ## Scope notes
 
 This first pass does not yet include a test suite, ESLint/Prettier, or
