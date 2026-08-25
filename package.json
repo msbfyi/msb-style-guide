@@ -19,12 +19,14 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
-    "./tokens.css": "./dist/tokens.css"
+    "./tokens.css": "./dist/tokens.css",
+    "./patterns.css": "./dist/patterns/patterns.css",
+    "./patterns/*.css": "./dist/patterns/*.css"
   },
   "scripts": {
     "prepare": "lefthook install",
     "dev": "vite",
-    "build": "vite build && cp src/tokens/tokens.css dist/tokens.css",
+    "build": "vite build && cp src/tokens/tokens.css dist/tokens.css && mkdir -p dist/patterns && cp src/patterns/*.css dist/patterns/",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "typecheck": "tsc --noEmit",

@@ -1,0 +1,123 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Docs/Adding a Pattern" />
+
+# Adding a pattern
+
+Most of this system is a **CSS pattern library**: plain classes
+applied to plain HTML, no custom elements, no JS, no shadow DOM. The
+"Patterns" section of this Storybook (Badge, Button, Card, ...) is all
+of it. The one exception is `<msb-mode-toggle>`, under "Components" —
+that one is genuinely stateful (reads/writes `localStorage`, fires an
+event), which is the actual bar for something needing to be a real
+web component here. If what you're adding doesn't need to _do_
+anything at runtime, it's a pattern, not a component.
+
+## File structure
+
+Each pattern is two files directly under `src/patterns/`:
+
+- `<name>.css` — the styles.
+- `<name>.stories.ts` — CSF3 stories rendering the plain HTML the
+  pattern applies to, documenting its variants.
+
+No `.ts` implementation file, no `.test.ts` — there's no behavior to
+unit test. Register the new file in `src/patterns/patterns.css`'s
+`@import` list so it ships as part of the "load everything" entry
+point.
+
+## Naming convention
+
+BEM-ish, always prefixed `msb-` — this prefix is doing the job shadow
+DOM used to do for free (style isolation). Without it, a `.card`
+class here could collide with a consumer's own `.card` class; `msb-`
+makes that collision very unlikely.
+
+- **Block**: `.msb-<pattern>` — e.g. `.msb-card`.
+- **Part**: `.msb-<pattern>__<part>` — e.g. `.msb-card__heading`.
+- **Variant modifier**: `.msb-<pattern>--<variant>` — e.g.
+  `.msb-badge--energy`.
+
+Never write a bare element selector beyond what's needed inside a
+pattern's own block (no `.msb-card h4` reaching for _any_ `<h4>` — use
+a real part class, `.msb-card__heading`, on the element instead). A
+bare element selector leaks onto whatever a consumer happens to nest
+inside the pattern, which is exactly the accidental-collision risk the
+naming convention exists to avoid.
+
+## Tokens, always
+
+Every color, font, and spacing value that isn't pattern-specific
+geometry must reference a token from `tokens.css`, with a fallback:
+`var(--ink, #1b2a52)`, never a bare hex value. The fallback keeps the
+pattern rendering reasonably even if a consumer forgets to load
+`tokens.css` — but the library still requires it for correct theming.
+
+## The chamfer
+
+The clipped-corner keyline lives in exactly one place:
+`src/patterns/_chamfer.css`. If a pattern needs it, **compose** the
+shared classes rather than redefining the clip-path polygon math:
+
+```html
+<span class="msb-badge msb-badge--energy msb-chamfer msb-chamfer--sm"> Trusted </span>
+```
+
+- `.msb-chamfer` — the clip-path + `::after` stroke, size defaults to
+  11px (`--c`).
+- `.msb-chamfer--sm` / `.msb-chamfer--lg` — 6px / 16px, matching
+  `tokens.css`'s `--c-sm`/`--c-lg` scale.
+- Override `--stroke` on the pattern's own variant class to match its
+  fill (e.g. `.msb-badge--energy { --stroke: var(--energy) }`) — see
+  `badge.css` for the pattern every chamfered variant follows.
+
+This is a real tradeoff worth naming: the old web-component version
+applied the chamfer automatically from a single tag. Plain CSS has no
+mixin mechanism, so here it's two classes instead of one. That's the
+honest cost of dropping shadow DOM — write it out.
+
+## Logic that used to be JS
+
+A few of the original web components had small bits of runtime logic
+that don't exist here anymore, because static-site rendering makes
+them unnecessary rather than harder:
+
+- **Card's "hide the footer if it's empty."** Don't render an empty
+  `.msb-card__footer` and hide it — just omit the element from the
+  template when there's no footer content
+  (`{% if footer %}<div class="msb-card__footer">...</div>{% endif %}`
+  in Nunjucks, or equivalent).
+- **Lockup's per-letter color cycling.** Write out one
+  `.msb-lockup__block--N` per letter by hand for a fixed mark, or, if
+  you need it dynamic, cycle the three modifier classes in your
+  templating layer (`loop.index0 % 3` in a Nunjucks macro) — not in
+  this library.
+- **The dispatch plate's starburst ornament.** Without shadow DOM, the
+  original mockup's `<svg><defs><g id="msb-burst">` + `<use
+href="#msb-burst">` approach works again — define the sprite once
+  per page (see `dispatch.stories.ts` for the markup), reference it
+  with `<use>` everywhere. No per-component path-data inlining needed.
+
+If what you're building can't be expressed as "omit some markup" or
+"write out the repetition" and genuinely needs runtime state or
+events, that's a sign it belongs in `src/components/` as a real web
+component instead — talk it through before assuming a pattern can do
+it.
+
+## Storybook conventions
+
+- Title: `Patterns/<Name>` (component stories, i.e. just
+  `mode-toggle`, stay `Components/<Name>`).
+- A `Default` story at minimum; `AllVariants` when there's more than
+  one meaningful variant to show at once (see `badge.stories.ts`).
+- Import only the pattern's own CSS file
+  (`import "./card.css"`) — `tokens.css` and `_chamfer.css` are
+  already loaded globally in `.storybook/preview.ts`.
+
+## Visual regression
+
+Same rule as everything else in this repo: baselines in
+`.storybook/__image_snapshots__/` are only ever regenerated by the
+`Update visual snapshots` GitHub Actions workflow
+(`gh workflow run update-visual-snapshots.yml`), never a local run —
+see `AGENTS.md`.
