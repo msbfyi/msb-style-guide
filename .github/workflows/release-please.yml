@@ -51,12 +51,26 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
       - run: npm run build
         if: ${{ steps.release.outputs.release_created }}
-      # npm's CLI auto-detects the OIDC environment (id-token: write
-      # above) and authenticates via Trusted Publishing first; NPM_TOKEN
-      # stays wired here purely as the fallback for that "if OIDC isn't
-      # available" case (e.g. the trusted-publisher config on npmjs.com
-      # getting misconfigured or revoked later) — not the primary path.
-      - run: npm publish
+      # A NODE_AUTH_TOKEN present in the environment makes the npm CLI
+      # just use it and never attempt OIDC at all — confirmed for real:
+      # v1.0.1 and v1.0.2 both published fine but through the token
+      # (npm's own "tokens that bypass 2FA are being restricted" notice
+      # in the log, and no dist.attestations on either published
+      # version — Trusted Publishing auto-generates one, a token-based
+      # publish doesn't), despite id-token: write and a correctly-
+      # configured trusted publisher. "Auto-detects OIDC... before
+      # falling back to tokens" apparently means "no token configured
+      # at all", not "tries OIDC first even with one present".
+      #
+      # So: attempt npm publish with no token in scope at all — a real
+      # OIDC-only attempt — and only fall back to NPM_TOKEN if that
+      # actually fails (misconfigured/revoked trusted publisher, etc.).
+      - name: Publish to npm (OIDC, falling back to NPM_TOKEN)
         if: ${{ steps.release.outputs.release_created }}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if npm publish; then
+            echo "Published via OIDC Trusted Publishing."
+          else
+            echo "::warning::OIDC publish failed — retrying with the NPM_TOKEN fallback."
+            NODE_AUTH_TOKEN="${{ secrets.NPM_TOKEN }}" npm publish
+          fi
