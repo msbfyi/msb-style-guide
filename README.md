@@ -94,6 +94,36 @@ utility — is documented in its Storybook page (`Patterns/<Name>` or
 `Components/Mode Toggle`), and the authoring convention itself is in
 `src/docs/AddingPatterns.mdx`.
 
+## Eleventy shortcodes
+
+For an [Eleventy](https://11ty.dev) site, `@msbfyi/style-guide/eleventy`
+is a plugin exposing a shortcode per pattern — the package becomes the
+source of truth for markup _structure_, not just CSS, so a consumer
+never hand-copies the exact class list (and can't have it drift):
+
+```js
+// .eleventy.js
+import styleGuidePlugin from "@msbfyi/style-guide/eleventy";
+export default function (eleventyConfig) {
+  eleventyConfig.addPlugin(styleGuidePlugin);
+}
+```
+
+```njk
+{% msbLockup "MSB", ".fyi", "Michael Sean Becker" %}
+{% msbBadge "Trusted", "energy" %}
+{% msbButton "Get in touch", { variant: "primary", href: "/contact/" } %}
+{% msbDivider %}
+{% msbEntry { href: "/blog/x/", title: "A post", date: "May 29", hasUpdate: true } %}
+
+{% msbStamp "Warning" %}Body copy.{% endmsbStamp %}
+{% msbDispatch { kicker: "Current issue", issue: "No. 04" } %}Sub copy.{% enddispatch %}
+```
+
+Still load `tokens.css`/`patterns.css` separately — this plugin only
+emits markup, it doesn't touch CSS. No shortcode for `mode-toggle`;
+that one's a real web component, not a template snippet.
+
 ## Develop
 
 ```sh
@@ -139,9 +169,9 @@ change bumps the major version.
 ## Scope notes
 
 Still deliberately deferred: `.msb-field` is styling only, no
-`ElementInternals` form-participation JS; and wiring this library into
-msb-blog itself (it's still a standalone package — msb-blog runs its
-own separate, hand-written CSS today).
+`ElementInternals` form-participation JS. [msb-blog](https://github.com/msbfyi/msb-blog)
+already consumes `patterns.css` (see its own `AGENTS.md`) — that's the
+first real external consumer, not just Storybook previewing itself.
 
 ## License
 

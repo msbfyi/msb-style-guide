@@ -29,12 +29,13 @@
     "./tokens.css": "./dist/tokens.css",
     "./patterns.css": "./dist/patterns/patterns.css",
     "./patterns/*.css": "./dist/patterns/*.css",
-    "./mode-toggle-standalone.js": "./dist/mode-toggle.standalone.js"
+    "./mode-toggle-standalone.js": "./dist/mode-toggle.standalone.js",
+    "./eleventy": "./dist/eleventy/index.js"
   },
   "scripts": {
     "prepare": "lefthook install",
     "dev": "vite",
-    "build": "vite build && vite build --config vite.config.standalone.ts && cp src/tokens/tokens.css dist/tokens.css && mkdir -p dist/patterns && cp src/patterns/*.css dist/patterns/",
+    "build": "vite build && vite build --config vite.config.standalone.ts && cp src/tokens/tokens.css dist/tokens.css && mkdir -p dist/patterns && cp src/patterns/*.css dist/patterns/ && mkdir -p dist/eleventy && cp src/eleventy/*.js dist/eleventy/",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "typecheck": "tsc --noEmit",
@@ -42,8 +43,8 @@
     "test:watch": "web-test-runner --watch",
     "test:storybook": "npm run build-storybook && concurrently -k -s first -n SB,TEST \"http-server storybook-static --port 6006 --silent\" \"wait-on tcp:6006 && test-storybook --url http://localhost:6006\"",
     "test:storybook:update": "npm run build-storybook && concurrently -k -s first -n SB,TEST \"http-server storybook-static --port 6006 --silent\" \"wait-on tcp:6006 && test-storybook --url http://localhost:6006 -u\"",
-    "lint": "eslint \"src/**/*.ts\" \".storybook/**/*.ts\"",
-    "lint:fix": "eslint \"src/**/*.ts\" \".storybook/**/*.ts\" --fix",
+    "lint": "eslint \"src/**/*.{ts,js}\" \".storybook/**/*.ts\"",
+    "lint:fix": "eslint \"src/**/*.{ts,js}\" \".storybook/**/*.ts\" --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
