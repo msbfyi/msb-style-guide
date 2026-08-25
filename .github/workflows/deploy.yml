@@ -36,3 +36,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: deploy
+          # wrangler-action's default (3.90.0) doesn't support an
+          # assets-only Worker (no `main` entry-point script) — errors
+          # "Missing entry-point". That support needs Wrangler 4.
+          wranglerVersion: "4"
