@@ -1,0 +1,41 @@
+/* Nav — a navigation rail. An optional brand chip followed by plain
+   <a> links; mark the current page's link with the msb-nav__link--active
+   modifier (or just the `aria-current="page"` attribute — both are
+   styled the same way here).
+   Ported 1:1 from <msb-nav>, minus the shadow-DOM ::slotted selector
+   (not needed — these are just direct children now). */
+
+.msb-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  align-items: center;
+}
+.msb-nav__brand {
+  --stroke: var(--ink, #1b2a52);
+  font-family: var(--display, sans-serif);
+  font-size: 14px;
+  padding: 9px 18px;
+  background: var(--ink, #1b2a52);
+  color: var(--paper, #f5f5f0);
+}
+.msb-nav__link {
+  --stroke: var(--ink, #1b2a52);
+  text-decoration: none;
+  font-family: var(--cond, sans-serif);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--ink, #1b2a52);
+  padding: 9px 17px;
+  transition:
+    background 0.12s,
+    color 0.12s;
+}
+.msb-nav__link--active,
+.msb-nav__link[aria-current="page"] {
+  background: var(--energy, #2e7d52);
+  color: var(--light, #f5f5f0);
+  --stroke: var(--energy, #2e7d52);
+}

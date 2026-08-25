@@ -1,0 +1,29 @@
+/* Divider — the "ball & rod" separator: dot—line—diamond—line—dot.
+   Ported 1:1 from <msb-divider>. Markup is fixed (see the story for
+   the exact 5-span structure); no variants. */
+
+.msb-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+.msb-divider__line {
+  flex: 1;
+  height: 1.5px;
+  background: var(--ink, #1b2a52);
+}
+.msb-divider__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--ink, #1b2a52);
+  flex: none;
+}
+.msb-divider__diamond {
+  width: 11px;
+  height: 11px;
+  background: var(--romantic, #b71c2a);
+  transform: rotate(45deg);
+  flex: none;
+}

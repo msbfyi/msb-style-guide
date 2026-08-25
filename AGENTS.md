@@ -5,9 +5,15 @@ Shared source of truth for AI coding tools working in this repo.
 
 ## What this is
 
-`@msbfyi/style-guide` — Lit web components implementing the Vital
-Spring design system (from `Style Guide v3.html`), documented and
-previewed via Storybook, deployed to Cloudflare Pages.
+`@msbfyi/style-guide` — the Vital Spring design system (from
+`Style Guide v3.html`), documented and previewed via Storybook,
+deployed to Cloudflare. Mostly a **CSS pattern library**: plain
+classes on plain HTML, under `src/patterns/`, no JS. One real Lit web
+component, `<msb-mode-toggle>` (`src/components/mode-toggle/`), for
+the one piece of the system that's genuinely stateful. See
+`src/docs/AddingPatterns.mdx` before adding either kind — it covers
+the naming convention, chamfer composition, and (importantly) which
+tier something belongs in.
 
 ## Never push directly to `main`
 
@@ -49,63 +55,77 @@ branch first.
 Every one of these layers exists because a specific real bug shipped
 past the previous layer during this repo's early development:
 
-- **Unit tests** (`npm test`) catch structural/logic bugs in a
-  component's own shadow DOM — slot fallback behavior, property
-  reflection, state changes. `card.test.ts` in particular is worth
-  reading before writing a new slot-fallback pattern elsewhere: it
-  documents two real gotchas discovered the hard way — `::slotted()`
-  never matches a slot's own fallback content, and asserting
-  `.to.be.null` on a value that might be a real (non-null) DOM node
-  can make chai hang for minutes constructing the failure message
-  instead of failing fast. Prefer `expect(x === null).to.be.true` over
-  `expect(x).to.be.null` whenever `x` could be a DOM node.
+- **Unit tests** (`npm test`) catch structural/logic bugs in a real
+  web component's own shadow DOM — slot fallback behavior, property
+  reflection, state changes. Only applies to `mode-toggle` now (the
+  one Lit component); CSS patterns have no `.test.ts` since there's no
+  behavior to test. One gotcha discovered the hard way, worth
+  remembering if this repo ever gets a second stateful component:
+  asserting `.to.be.null` on a value that might be a real (non-null)
+  DOM node can make chai hang for minutes constructing the failure
+  message instead of failing fast. Prefer `expect(x === null).to.be.true`
+  over `expect(x).to.be.null` whenever `x` could be a DOM node —
+  `mode-toggle.test.ts`'s `.to.be.null` checks are all on plain
+  strings, not nodes, so they're safe as written; don't copy that
+  pattern onto a DOM-node assertion without switching forms.
 - **Interaction tests** (Storybook `play` functions, run by
   `test:storybook`) catch bugs unit tests can't reach — real click
   events, real `slotchange` timing, cross-shadow-boundary event
   composition — in the same environment a consumer would actually use
-  the component.
+  the component. Only meaningful for `mode-toggle`; CSS patterns have
+  nothing to interact with.
 - **Visual regression** (also `test:storybook`, via
   `jest-image-snapshot`) catches rendering bugs that don't throw and
-  don't fail an assertion: unreadable text, a component collapsing to
+  don't fail an assertion: unreadable text, a pattern collapsing to
   zero size, a layout running inline instead of stacking. Every one of
   those happened in this repo's Storybook and was only caught by a
   human looking at a screenshot, before this existed. Screenshots are
   scoped to `#storybook-root` (the story's own rendered element), not
-  the full page — a full-page screenshot dilutes a small component's
+  the full page — a full-page screenshot dilutes a small pattern's
   regression to well under any sane percentage threshold; a thin
   divider line disappearing is a tiny fraction of a full page but a
-  large fraction of the component's own bounding box.
+  large fraction of the pattern's own bounding box. This is now the
+  primary safety net for the CSS pattern library, since there's no
+  unit-testable behavior to check instead.
 - **Lint** (`eslint-plugin-lit`, `eslint-plugin-wc`) catches Lit/
-  custom-element-specific mistakes generic TypeScript linting won't.
+  custom-element-specific mistakes generic TypeScript linting won't —
+  only reaches `mode-toggle.ts` now, since it's the only `.ts` file
+  left that touches either plugin's rules.
 
 ## Conventions
 
-- **Every component** gets a `.ts` (implementation) and
-  `.stories.ts` (CSF3) under `src/components/<name>/`, and is
-  re-exported from `src/index.ts`.
-- **Chamfer geometry** (the clipped-corner keyline used almost
-  everywhere) lives once in `src/internal/chamfer.ts` — use
-  `chamferHost` for a component whose `:host` itself is the visual
-  box, `chamferRules(selector)` for an internal native element
-  (`button`, `input`) or a slotted one (`::slotted(a)`). Don't
-  re-derive the clip-path polygon math per component.
+See `src/docs/AddingPatterns.mdx` for the full authoring guide (file
+structure, naming, chamfer composition, what used to be JS and isn't
+anymore). Summary:
+
+- **Patterns** (the CSS-only majority) are `src/patterns/<name>.css` +
+  `src/patterns/<name>.stories.ts`, titled `Patterns/<Name>` in
+  Storybook, classes prefixed `msb-` — no `.ts` implementation file,
+  no re-export from `src/index.ts` (nothing to import).
+- **The one real component** (`mode-toggle`) keeps the original shape:
+  `.ts` + `.stories.ts` + `.test.ts` under `src/components/<name>/`,
+  re-exported from `src/index.ts`, titled `Components/<Name>`. If
+  something new genuinely needs runtime state or events, it goes here,
+  not in `src/patterns/`.
+- **Chamfer geometry** has two independent copies of the same polygon
+  math, because the two tiers can't share a mixin: `src/patterns/
+_chamfer.css` (plain CSS, `.msb-chamfer`/`--sm`/`--lg` classes to
+  compose) for patterns, and `src/internal/chamfer.ts` (Lit `css`
+  chunks, `chamferHost`/`chamferRules`) for `mode-toggle`. Don't
+  re-derive the polygon math a third time anywhere else.
 - **Design tokens** live only in `src/tokens/tokens.css`, loaded once
-  globally by the consumer (custom properties pierce shadow DOM).
-  Components reference tokens with fallback values
-  (`var(--ink, #1b2a52)`) so they degrade gracefully if a consumer
-  forgets to load the sheet, but never hardcode a color without also
-  referencing the token.
-- **The starburst ornament** (`<msb-dispatch>`) is inlined via
-  `src/internal/ornaments.ts`, not a document-level `<use href="#…">`
-  — `<use>` idref lookups don't cross a shadow boundary, and per-
-  component inlining is the correct workaround, not a shortcut to
-  "fix" later.
-- **Custom element tag prefix is `msb-`** — don't introduce a
-  different prefix for new components.
+  globally by the consumer (custom properties pierce shadow DOM too,
+  so this file serves both tiers unmodified). Reference tokens with
+  fallback values (`var(--ink, #1b2a52)`) so things degrade gracefully
+  if a consumer forgets to load the sheet, but never hardcode a color
+  without also referencing the token.
+- **Custom element tag prefix is `msb-`** for `mode-toggle` and any
+  future real component; CSS pattern classes use the same `msb-`
+  prefix for the same reason (collision avoidance), just without the
+  tag semantics.
 - **MDX docs** (the brand-book reference material — palette,
-  typography, patterns, era, tokens, etc.) live in `src/docs/`, titled
-  `Docs/<Name>`. Component stories live beside their component and are
-  titled `Components/<Name>`.
+  typography, ornament, era, tokens, etc., plus `AddingPatterns.mdx`)
+  live in `src/docs/`, titled `Docs/<Name>`.
 
 ## Local git hooks (lefthook)
 

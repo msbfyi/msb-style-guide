@@ -1,5 +1,6 @@
 import type { Preview } from "@storybook/web-components";
 import "../src/tokens/tokens.css";
+import "../src/patterns/_chamfer.css";
 
 const preview: Preview = {
   parameters: {

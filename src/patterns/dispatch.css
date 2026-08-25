@@ -1,0 +1,62 @@
+/* Dispatch plate — a fixed Dramatic-cobalt panel with a bled
+   starburst ornament, a kicker, a large issue value, and sub copy.
+   Stays cobalt in both light and dark themes — only its keyline
+   changes (Style Guide v3 §08, rule i: "a colour plate is a fixed
+   field, not a themed surface").
+
+   The starburst ornament: without shadow DOM, the original mockup's
+   approach works again — define the <svg><defs><g id="msb-burst">
+   sprite ONCE per page (see AddingPatterns.mdx for the markup), then
+   reference it via <use href="#msb-burst"> in each plate. No need to
+   inline the path data per-use the way the old <msb-dispatch> had to.
+   Ported 1:1 from <msb-dispatch>, applied with msb-chamfer msb-chamfer--lg. */
+
+.msb-dispatch {
+  --stroke: var(--plate-stroke, var(--dramatic, #1a3a8f));
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: hidden;
+  width: 100%;
+  padding: 24px;
+  background: var(--dramatic, #1a3a8f);
+  color: var(--light, #f5f5f0);
+  position: relative;
+}
+.msb-dispatch__burst {
+  position: absolute;
+  right: -30px;
+  top: -30px;
+  width: 122px;
+  color: rgba(245, 245, 240, 0.12);
+  pointer-events: none;
+}
+.msb-dispatch__burst svg {
+  display: block;
+  width: 100%;
+}
+.msb-dispatch__kicker {
+  font-family: var(--cond, sans-serif);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-weight: 600;
+  font-size: 11px;
+  color: var(--essence, #e8b98a);
+  position: relative;
+  z-index: 1;
+}
+.msb-dispatch__issue {
+  font-family: var(--display, sans-serif);
+  font-size: 30px;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  position: relative;
+  z-index: 1;
+}
+.msb-dispatch__sub {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--essence, #e8b98a);
+  position: relative;
+  z-index: 1;
+}

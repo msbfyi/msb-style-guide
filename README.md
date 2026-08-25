@@ -2,10 +2,12 @@
 
 [![CI](https://github.com/msbfyi/msb-style-guide/actions/workflows/ci.yml/badge.svg)](https://github.com/msbfyi/msb-style-guide/actions/workflows/ci.yml)
 
-Web component library for the **Vital Spring** design system —
-msb.fyi's visual identity, extracted from `Style Guide v3.html` into
-real, installable [Lit](https://lit.dev) custom elements with a hosted
-[Storybook](https://storybook.js.org).
+The **Vital Spring** design system — msb.fyi's visual identity,
+extracted from `Style Guide v3.html` into a real, installable CSS
+pattern library (plain classes, no JS, no shadow DOM) with a hosted
+[Storybook](https://storybook.js.org). One piece — the light/auto/dark
+toggle — is a real [Lit](https://lit.dev) web component, since it's
+the only part of the system with genuine runtime state.
 
 Source: [davidzyla.com — The Color of
 Style](https://davidzyla.com/the-color-of-style/) (archetype: Vital
@@ -18,19 +20,27 @@ component system.
 npm install @msbfyi/style-guide
 ```
 
-Load the design tokens once, globally — custom properties pierce the
-shadow-DOM boundary, so this is the one thing every component depends
-on from outside itself:
+Load the design tokens and the pattern library once, globally — custom
+properties pierce the shadow-DOM boundary (relevant for `mode-toggle`
+below), and plain CSS classes just need to be on the page:
 
 ```html
 <link rel="stylesheet" href="node_modules/@msbfyi/style-guide/dist/tokens.css" />
+<link
+  rel="stylesheet"
+  href="node_modules/@msbfyi/style-guide/dist/patterns/patterns.css"
+/>
 ```
 
 or in a bundler:
 
 ```js
 import "@msbfyi/style-guide/tokens.css";
+import "@msbfyi/style-guide/patterns.css";
 ```
+
+Only need one or two patterns? Import them individually instead of the
+whole sheet: `@msbfyi/style-guide/patterns/badge.css`.
 
 You'll also want the four Google Fonts the system uses (Krona One, DM
 Sans, Barlow Condensed, JetBrains Mono) — see `.storybook/preview-head.html`
@@ -38,48 +48,51 @@ for the exact `<link>` tags.
 
 ## Use
 
+Patterns are plain classes on plain HTML — no JS import needed:
+
+```html
+<button class="msb-btn msb-chamfer" type="button">Get in touch</button>
+
+<span class="msb-badge msb-badge--energy msb-chamfer msb-chamfer--sm">Trusted</span>
+
+<nav class="msb-nav">
+  <span class="msb-nav__brand msb-chamfer">msb.fyi</span>
+  <a class="msb-nav__link msb-chamfer" href="/blog" aria-current="page">Blog</a>
+  <a class="msb-nav__link msb-chamfer" href="/notes">Notes</a>
+</nav>
+```
+
+The one real component needs its JS imported to register the custom
+element:
+
 ```js
-import "@msbfyi/style-guide"; // registers every custom element
+import "@msbfyi/style-guide"; // registers <msb-mode-toggle>
 ```
 
 ```html
-<msb-button variant="primary" dot>Get in touch</msb-button>
-
-<msb-badge variant="energy">Trusted</msb-badge>
-
-<msb-nav brand="msb.fyi">
-  <a href="/blog" active>Blog</a>
-  <a href="/notes">Notes</a>
-</msb-nav>
-
 <msb-mode-toggle></msb-mode-toggle>
 ```
 
-Import only what you need instead, if you'd rather not register
-everything:
+## Patterns & components
 
-```js
-import { MsbButton, MsbBadge } from "@msbfyi/style-guide";
-```
+| Class / element     | From Style Guide v3 §07                                        |
+| ------------------- | -------------------------------------------------------------- |
+| `.msb-lockup`       | Lockup — primary mark                                          |
+| `.msb-btn`          | Buttons — primary/secondary/dark                               |
+| `.msb-badge`        | Badges — 5 status fills                                        |
+| `.msb-nav`          | Navigation rail                                                |
+| `.msb-field`        | Labeled text input                                             |
+| `.msb-card`         | Pattern-cover card                                             |
+| `.msb-divider`      | Ball & rod separator                                           |
+| `.msb-dispatch`     | Dispatch plate                                                 |
+| `.msb-stamp`        | Notice stamp                                                   |
+| `.msb-entry`        | Index entry                                                    |
+| `<msb-mode-toggle>` | Light/auto/dark segmented control — the one real web component |
 
-## Components
-
-| Element             | From Style Guide v3 §07           |
-| ------------------- | --------------------------------- |
-| `<msb-lockup>`      | Lockup — primary mark             |
-| `<msb-button>`      | Buttons — primary/secondary/dark  |
-| `<msb-badge>`       | Badges — 5 status fills           |
-| `<msb-nav>`         | Navigation rail                   |
-| `<msb-input>`       | Labeled text input                |
-| `<msb-card>`        | Pattern-cover card                |
-| `<msb-divider>`     | Ball & rod separator              |
-| `<msb-dispatch>`    | Dispatch plate                    |
-| `<msb-stamp>`       | Notice stamp                      |
-| `<msb-entry>`       | Index entry                       |
-| `<msb-mode-toggle>` | Light/auto/dark segmented control |
-
-Full API for each — props, slots, CSS parts — is documented in its
-Storybook page.
+Full markup for each — parts, variants, composition with the chamfer
+utility — is documented in its Storybook page (`Patterns/<Name>` or
+`Components/Mode Toggle`), and the authoring convention itself is in
+`src/docs/AddingPatterns.mdx`.
 
 ## Develop
 
@@ -91,15 +104,16 @@ npm run build-storybook     # static Storybook -> storybook-static/
 npm run typecheck
 npm run lint                # eslint-plugin-lit + eslint-plugin-wc + TS
 npm run format               # prettier --write
-npm test                     # component unit tests, real Chromium
+npm test                     # mode-toggle's unit tests, real Chromium
 npm run test:storybook       # interaction tests + visual regression
 npm run test:storybook:update  # regenerate visual baselines after an
                                 # *intentional* visual change
 ```
 
-Full testing philosophy — what each layer catches, and two real gotchas
-(chai hanging on DOM-node assertions, `::slotted()` vs. slot fallback
-content) — is documented in `AGENTS.md`.
+Full testing philosophy — what each layer catches, why visual
+regression is the primary safety net for the CSS pattern library, and
+a real gotcha (chai hanging on DOM-node assertions) — is documented in
+`AGENTS.md`.
 
 ## Design tokens
 
@@ -126,10 +140,10 @@ once things look stable.
 
 ## Scope notes
 
-Still deliberately deferred: full `ElementInternals` form participation
-on `<msb-input>`, and wiring this library into msb-blog itself (it's
-still a standalone package — msb-blog runs its own separate, hand-
-written CSS today).
+Still deliberately deferred: `.msb-field` is styling only, no
+`ElementInternals` form-participation JS; and wiring this library into
+msb-blog itself (it's still a standalone package — msb-blog runs its
+own separate, hand-written CSS today).
 
 ## License
 

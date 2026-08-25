@@ -1,0 +1,61 @@
+/* Lockup — the primary mark: a small run of tilted, chamfered letter
+   blocks followed by a domain suffix and, optionally, a name label
+   underneath.
+
+   Unlike the old <msb-lockup>, the block-per-letter loop and its
+   3-color cycle aren't computed here — write out one
+   .msb-lockup__block per letter, cycling the 3 modifier classes below
+   in order (or generate that loop in your templating layer, e.g. an
+   11ty/Nunjucks macro — see AddingPatterns.mdx). */
+
+.msb-lockup {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 11px;
+}
+.msb-lockup__blocks {
+  display: flex;
+  align-items: flex-end;
+  gap: 7px;
+}
+.msb-lockup__block {
+  --stroke: var(--ink, #1b2a52);
+  width: 46px;
+  aspect-ratio: 1 / 1.28;
+  display: grid;
+  place-items: center;
+  font-family: var(--display, sans-serif);
+  font-size: 23px;
+  line-height: 1;
+}
+/* Cycle these three in order across successive letters. */
+.msb-lockup__block--1 {
+  background: var(--romantic, #b71c2a);
+  color: var(--light, #f5f5f0);
+  transform: rotate(-3deg);
+}
+.msb-lockup__block--2 {
+  background: var(--essence, #e8b98a);
+  color: var(--formal, #1b2a52);
+  transform: rotate(3deg);
+}
+.msb-lockup__block--3 {
+  background: var(--energy, #2e7d52);
+  color: var(--light, #f5f5f0);
+  transform: rotate(-2deg);
+}
+.msb-lockup__domain {
+  font-family: var(--display, sans-serif);
+  font-size: 23px;
+  letter-spacing: -0.03em;
+  padding: 0 0 2px 5px;
+  color: var(--ink, #1b2a52);
+}
+.msb-lockup__name {
+  font-family: var(--cond, sans-serif);
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--muted, #3b1f2b);
+}
