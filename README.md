@@ -133,10 +133,8 @@ follow [Conventional Commits](https://www.conventionalcommits.org/),
 `chore(main): release ...` PR on every push to `main`, and merging that
 PR cuts the release (tags it, updates `CHANGELOG.md`).
 
-**This package is in beta.** Every release right now is a
-`0.x.y-beta.N` prerelease (`release-please-config.json` has
-`"prerelease": true`) — it stays that way until told otherwise, even
-once things look stable.
+**`1.0.0` and stable.** Releases are plain semver now — a breaking
+change bumps the major version.
 
 ## Scope notes
 

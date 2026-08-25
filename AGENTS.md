@@ -156,11 +156,13 @@ A commit that doesn't follow this format is silently invisible to it.
 - `docs:`, `chore:`, `refactor:`, `test:`, `ci:`, `build:` → tracked
   but hidden from the changelog
 
-## Beta status
+## Versioning
 
-`release-please-config.json` has `"prerelease": true` /
-`"prerelease-type": "beta"` — every release right now lands as
-`0.x.y-beta.N`, not a stable version. **Do not flip `prerelease` to
-`false`** unless the user explicitly asks to graduate to a full
-release; this is a deliberate, standing instruction, not a default to
-"fix" once things look stable.
+Graduated out of beta to `1.0.0` (was `0.x.y-beta.N` — see git history
+if you need the old prerelease config). `release-please-config.json`
+now uses plain `"release-type": "node"`: normal semver, no prerelease
+suffix, and `package.json`'s `version` field is kept in sync
+automatically by release-please's own release PR — never hand-edit it.
+A future `feat!`/`BREAKING CHANGE:` commit bumps the major version for
+real now (no `bump-minor-pre-major` override anymore); don't add one
+back without being asked.
