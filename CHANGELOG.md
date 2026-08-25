@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/msbfyi/msb-style-guide/compare/v1.0.2...v1.0.3) (2026-08-25)
+
+
+### Bug Fixes
+
+* NODE_AUTH_TOKEN presence was silently pre-empting OIDC entirely ([#28](https://github.com/msbfyi/msb-style-guide/issues/28)) ([1990c29](https://github.com/msbfyi/msb-style-guide/commit/1990c29a4c33e3a47b9ad0f67ecebfa59336e402))
+
 ## [1.0.2](https://github.com/msbfyi/msb-style-guide/compare/v1.0.1...v1.0.2) (2026-08-25)
 
 
