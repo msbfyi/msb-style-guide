@@ -58,7 +58,21 @@ jobs:
           cache: "npm"
       - run: npm ci
       - run: npx playwright install --with-deps chromium
+      # CI=false: @storybook/test-runner (via Jest) auto-detects the
+      # GitHub Actions environment and, by default, hard-fails any story
+      # with no existing baseline instead of writing one — so a PR that
+      # adds a brand-new story always shows a red X here even though
+      # nothing is actually broken, just not-yet-baselined. With CI=false,
+      # a *new* story writes its screenshot and passes (nothing to compare
+      # against yet — this run's filesystem is discarded, nothing gets
+      # committed from here); a story with an *existing* baseline still
+      # fails hard on a real mismatch, unchanged. Verified locally: 15
+      # new-story writes all passed, 2 existing-baseline mismatches still
+      # failed. Real baselines only ever get committed by the separate
+      # update-visual-snapshots workflow, same as always.
       - run: npm run test:storybook
+        env:
+          CI: false
       - if: failure()
         uses: actions/upload-artifact@v4
         with:
