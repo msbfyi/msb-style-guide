@@ -1,0 +1,31 @@
+# https://github.com/evilmartians/lefthook
+#
+# Catches what's cheap and environment-independent to catch locally.
+# Deliberately does NOT run the visual-regression suite (npm run
+# test:storybook) — that renders on whatever OS/Chromium happens to be
+# on the dev's machine, which is exactly the mismatch that broke
+# storybook-tests in the first place (see AGENTS.md, "Testing
+# philosophy"). Baselines only ever come from the `Update visual
+# snapshots` GitHub Actions workflow.
+
+pre-commit:
+  parallel: true
+  commands:
+    lint:
+      glob: "*.ts"
+      run: npx eslint {staged_files}
+    format:
+      glob: "*.{ts,js,cjs,json,md,css}"
+      run: npx prettier --check {staged_files}
+    guard-visual-baselines:
+      glob: ".storybook/__image_snapshots__/*.png"
+      run: >
+        echo "Blocked: .storybook/__image_snapshots__/ baselines can't be committed from a local run — this machine's font rendering won't match CI's and will fail storybook-tests on every text-bearing component (this is exactly how that job broke before). Regenerate them via the 'Update visual snapshots' GitHub Actions workflow instead: gh workflow run update-visual-snapshots.yml" >&2 &&
+        exit 1
+
+pre-push:
+  commands:
+    typecheck:
+      run: npm run typecheck
+    unit-tests:
+      run: npm test
