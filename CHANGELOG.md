@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/msbfyi/msb-style-guide/compare/v1.0.1...v1.0.2) (2026-08-25)
+
+
+### Bug Fixes
+
+* upgrade npm explicitly — Node 22's bundled npm is too old for Trusted Publishing ([#26](https://github.com/msbfyi/msb-style-guide/issues/26)) ([baa9969](https://github.com/msbfyi/msb-style-guide/commit/baa9969c7768cda4e075a9c2d8a3a5902b9af5a2))
+
 ## [1.0.1](https://github.com/msbfyi/msb-style-guide/compare/v1.0.0...v1.0.1) (2026-08-25)
 
 
