@@ -1,0 +1,50 @@
+name: Update visual snapshots
+
+# Manual, on-demand regeneration of the visual-regression baselines in
+# .storybook/__image_snapshots__/. Runs on the exact same ubuntu-latest +
+# Playwright Chromium environment as the storybook-tests job in ci.yml —
+# baselines must be generated here, never on a local machine. A locally
+# (e.g. macOS) generated baseline renders text with different hinting/
+# anti-aliasing than CI's Linux Chromium, which fails storybook-tests on
+# every text-bearing component even with zero actual visual change (see
+# the chore/update-visual-baselines PR that first hit this).
+on:
+  workflow_dispatch:
+
+jobs:
+  update-snapshots:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:storybook:update
+      - name: Commit and open a PR if baselines changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- .storybook/__image_snapshots__; then
+            echo "No snapshot changes — baselines already match CI's rendering."
+            exit 0
+          fi
+          branch="chore/update-visual-baselines-${{ github.run_id }}"
+          git checkout -b "$branch"
+          git add .storybook/__image_snapshots__
+          git commit -m "chore: regenerate visual regression baselines in CI
+
+Baselines must be generated on ubuntu-latest, matching how storybook-tests
+actually renders — never on a local machine, whose font hinting/AA differs
+enough to fail every text-bearing snapshot with no real visual change."
+          git push origin "$branch"
+          gh pr create --title "chore: regenerate visual regression baselines in CI" \
+            --body "Automated by the \`Update visual snapshots\` workflow (run ${{ github.run_id }}). Regenerates \`.storybook/__image_snapshots__/\` on ubuntu-latest so baselines match what \`storybook-tests\` actually renders. Review the diffs before merging." \
+            --base main --head "$branch"
