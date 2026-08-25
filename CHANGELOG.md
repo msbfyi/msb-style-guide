@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/msbfyi/msb-style-guide/compare/v1.1.0...v1.2.0) (2026-08-25)
+
+
+### Features
+
+* Eleventy shortcodes plugin — markup, not just CSS, as shared source of truth ([#32](https://github.com/msbfyi/msb-style-guide/issues/32)) ([02ca4fc](https://github.com/msbfyi/msb-style-guide/commit/02ca4fc77236664774e024d85e4373e0fb6d93bf))
+
 ## [1.1.0](https://github.com/msbfyi/msb-style-guide/compare/v1.0.3...v1.1.0) (2026-08-25)
 
 
