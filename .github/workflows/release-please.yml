@@ -8,12 +8,46 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  id-token: write # required for npm Trusted Publishing (OIDC)
 
 jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
       - uses: googleapis/release-please-action@v4
+        id: release
         with:
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
+
+      # Publishing has to happen as steps in *this* job, not a separate
+      # workflow reacting to the `release` event — a release created by
+      # this job's own GITHUB_TOKEN doesn't fire other workflows' `on:
+      # release` triggers (GitHub's anti-recursion safeguard for
+      # token-authored events). This is release-please-action's own
+      # documented pattern for exactly this reason.
+      - uses: actions/checkout@v4
+        if: ${{ steps.release.outputs.release_created }}
+      - uses: actions/setup-node@v4
+        if: ${{ steps.release.outputs.release_created }}
+        with:
+          # npm Trusted Publishing (OIDC) needs npm >=11.5.1 / Node
+          # >=22.14 — overridden here rather than in .nvmrc, since that
+          # pins Node 20 for the rest of CI/dev and there's no reason to
+          # move everything just for this one publish step's OIDC need.
+          node-version: "22"
+          cache: "npm"
+          registry-url: "https://registry.npmjs.org"
+      - run: npm ci
+        if: ${{ steps.release.outputs.release_created }}
+      - run: npm run build
+        if: ${{ steps.release.outputs.release_created }}
+      # npm's CLI auto-detects the OIDC environment (id-token: write
+      # above) and authenticates via Trusted Publishing first; NPM_TOKEN
+      # stays wired here purely as the fallback for that "if OIDC isn't
+      # available" case (e.g. the trusted-publisher config on npmjs.com
+      # getting misconfigured or revoked later) — not the primary path.
+      - run: npm publish
+        if: ${{ steps.release.outputs.release_created }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

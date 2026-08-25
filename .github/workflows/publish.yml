@@ -1,12 +1,14 @@
 name: Publish to npm
 
-# Fires when release-please's release PR is merged — release-please
-# creates the GitHub Release itself as part of that, which is what
-# triggers this. workflow_dispatch is there only to retry a failed
-# publish without needing a whole new release.
+# Manual-only: the real publish happens automatically as part of
+# release-please.yml itself, right after it creates a release — a
+# release created by that job's own GITHUB_TOKEN doesn't fire this
+# workflow's `on: release` the way a human- or PAT-authored release
+# would (GitHub's anti-recursion safeguard for token-authored events),
+# so that trigger doesn't work here and isn't declared. This exists
+# only to retry a failed publish for a version that already released,
+# without needing a whole new release to force it.
 on:
-  release:
-    types: [published]
   workflow_dispatch:
 
 jobs:
