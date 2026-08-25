@@ -32,10 +32,17 @@ branch first.
   (interaction tests) and a visual-regression screenshot comparison
   against the baselines in `.storybook/__image_snapshots__/`
 - `npm run test:storybook:update` — same, but regenerates the visual
-  baselines instead of comparing against them. Run this after an
-  _intentional_ visual change and commit the updated PNGs. Never run it
-  to make a failing test pass without first confirming the new
-  rendering is actually correct — that defeats the entire point.
+  baselines instead of comparing against them. **Never run this
+  locally and commit the result** — a locally-generated (e.g. macOS)
+  baseline renders text with different hinting/anti-aliasing than the
+  `storybook-tests` job's Linux Chromium, and will fail CI on every
+  text-bearing component even with zero real visual change (this
+  happened in PR #1 and stayed broken, unnoticed, until PR #6). Use
+  the **`Update visual snapshots`** GitHub Actions workflow instead
+  (`gh workflow run update-visual-snapshots.yml`, or the Actions tab)
+  — it regenerates baselines on `ubuntu-latest`, the same environment
+  `storybook-tests` actually runs in, and opens a PR with the result
+  for you to review before merging.
 
 ## Testing philosophy — read this before skipping any of it
 
