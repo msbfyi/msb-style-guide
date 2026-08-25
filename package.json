@@ -8,6 +8,13 @@
     "name": "Michael Sean Becker",
     "url": "https://msb.fyi"
   },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/msbfyi/msb-style-guide.git"
+  },
   "files": [
     "dist"
   ],
