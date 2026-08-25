@@ -15,7 +15,7 @@ pre-commit:
       glob: "*.ts"
       run: npx eslint {staged_files}
     format:
-      glob: "*.{ts,js,cjs,json,md,css}"
+      glob: "*.{ts,js,cjs,json,md,css,yml,yaml}"
       run: npx prettier --check {staged_files}
     guard-visual-baselines:
       glob: ".storybook/__image_snapshots__/*.png"
