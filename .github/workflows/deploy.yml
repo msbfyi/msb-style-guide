@@ -1,4 +1,4 @@
-name: "Deploy Storybook to Cloudflare Pages"
+name: "Deploy Storybook to Cloudflare"
 on:
   push:
     branches:
@@ -24,11 +24,15 @@ jobs:
       - run: npm ci
       - run: npm run build-storybook
 
-      - name: Publish to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
+      # calm-king-8ecf (style-guide.msb.fyi) is a Cloudflare Worker with
+      # static-assets support, not a Cloudflare Pages project — this was
+      # cloudflare/pages-action before, which calls the Pages API and 404s
+      # on a Worker regardless of correct credentials. wrangler deploy
+      # targets Workers directly; the project/asset config lives in
+      # wrangler.jsonc, not as inputs here.
+      - name: Deploy to Cloudflare Workers
+        uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
-          directory: storybook-static
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          command: deploy

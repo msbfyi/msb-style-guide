@@ -1,0 +1,15 @@
+{
+  // Deploys the built Storybook (storybook-static/) as a Worker serving
+  // static assets — style-guide.msb.fyi is already routed to this exact
+  // Worker (calm-king-8ecf) in the Cloudflare dashboard. This is NOT a
+  // Cloudflare Pages project, despite deploy.yml originally assuming it
+  // was — see the "fix: deploy to the actual Cloudflare Worker, not Pages"
+  // commit for how that was diagnosed. Don't rename "name" below without
+  // also updating the custom domain routing in the Cloudflare dashboard,
+  // it's what ties this config to the existing style-guide.msb.fyi route.
+  "name": "calm-king-8ecf",
+  "compatibility_date": "2026-08-25",
+  "assets": {
+    "directory": "./storybook-static",
+  },
+}
