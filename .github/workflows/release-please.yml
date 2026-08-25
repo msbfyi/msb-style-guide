@@ -38,6 +38,15 @@ jobs:
           node-version: "22"
           cache: "npm"
           registry-url: "https://registry.npmjs.org"
+      # Node 22's *bundled* npm lags well behind npm's own release
+      # cadence (v22.23.2 ships npm 10.9.8) — nowhere near the >=11.5.1
+      # Trusted Publishing needs. Confirmed this bit us for real: the
+      # v1.0.1 release published successfully but silently through the
+      # NODE_AUTH_TOKEN fallback instead of OIDC (no dist.attestations
+      # on the published version), because the CLI itself was too old
+      # to attempt OIDC at all — not a config problem, a version one.
+      - run: npm install -g npm@^11.5.1
+        if: ${{ steps.release.outputs.release_created }}
       - run: npm ci
         if: ${{ steps.release.outputs.release_created }}
       - run: npm run build
