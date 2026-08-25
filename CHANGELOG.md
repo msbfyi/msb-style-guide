@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/msbfyi/msb-style-guide/compare/v1.0.0...v1.0.1) (2026-08-25)
+
+
+### Bug Fixes
+
+* publish inline on release_created + switch to npm Trusted Publishing ([#24](https://github.com/msbfyi/msb-style-guide/issues/24)) ([6a1a8f5](https://github.com/msbfyi/msb-style-guide/commit/6a1a8f54abdc808d8e7a5c701c9f409a9ca20ccc))
+
 ## [1.0.0](https://github.com/msbfyi/msb-style-guide/compare/v0.2.0-beta.1...v1.0.0) (2026-08-25)
 
 
