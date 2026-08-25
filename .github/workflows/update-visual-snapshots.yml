@@ -39,7 +39,13 @@ jobs:
           branch="chore/update-visual-baselines-${{ github.run_id }}"
           git checkout -b "$branch"
           git add .storybook/__image_snapshots__
-          git commit -m "chore: regenerate visual regression baselines in CI" \
+          # --no-verify: npm ci runs lefthook install too, so without this,
+          # lefthook's own pre-commit guard-visual-baselines hook — which
+          # exists to stop a *local* run from committing snapshot PNGs —
+          # blocks this workflow's own legitimate commit of freshly
+          # regenerated, correct-environment baselines. This is exactly the
+          # path that guard's error message tells people to use instead.
+          git commit --no-verify -m "chore: regenerate visual regression baselines in CI" \
             -m "Baselines must be generated on ubuntu-latest, matching how storybook-tests actually renders — never on a local machine, whose font hinting/AA differs enough to fail every text-bearing snapshot with no real visual change."
           git push origin "$branch"
           gh pr create --title "chore: regenerate visual regression baselines in CI" \
