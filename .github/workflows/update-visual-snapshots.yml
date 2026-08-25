@@ -39,11 +39,8 @@ jobs:
           branch="chore/update-visual-baselines-${{ github.run_id }}"
           git checkout -b "$branch"
           git add .storybook/__image_snapshots__
-          git commit -m "chore: regenerate visual regression baselines in CI
-
-Baselines must be generated on ubuntu-latest, matching how storybook-tests
-actually renders — never on a local machine, whose font hinting/AA differs
-enough to fail every text-bearing snapshot with no real visual change."
+          git commit -m "chore: regenerate visual regression baselines in CI" \
+            -m "Baselines must be generated on ubuntu-latest, matching how storybook-tests actually renders — never on a local machine, whose font hinting/AA differs enough to fail every text-bearing snapshot with no real visual change."
           git push origin "$branch"
           gh pr create --title "chore: regenerate visual regression baselines in CI" \
             --body "Automated by the \`Update visual snapshots\` workflow (run ${{ github.run_id }}). Regenerates \`.storybook/__image_snapshots__/\` on ubuntu-latest so baselines match what \`storybook-tests\` actually renders. Review the diffs before merging." \
