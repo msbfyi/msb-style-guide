@@ -21,7 +21,7 @@
    ============================================================ */
 
 .msb-chamfer {
-  --c: var(--c, 11px);
+  --c: 11px;
   --stroke: var(--ink, #1b2a52);
   position: relative;
   clip-path: polygon(
