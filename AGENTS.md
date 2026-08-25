@@ -107,6 +107,18 @@ anymore). Summary:
   re-exported from `src/index.ts`, titled `Components/<Name>`. If
   something new genuinely needs runtime state or events, it goes here,
   not in `src/patterns/`.
+- **Eleventy shortcodes** (`src/eleventy/index.js`, exported as
+  `@msbfyi/style-guide/eleventy`) are the markup-structure counterpart
+  to the CSS patterns — plain JS, not compiled through Vite, just
+  copied to `dist/eleventy/` by the build script. Add a shortcode here
+  when a pattern's markup has real structure a consumer would
+  otherwise hand-copy (and could get wrong/let drift) — not for every
+  pattern; `.msb-divider`/`.msb-badge` are simple enough that a
+  shortcode is barely more than the markup itself, but still worth it
+  for the "one source of truth" guarantee. Keep `esc()`-ing any
+  interpolated text — shortcode args are usually front-matter content,
+  not attacker input, but unescaped `&`/`<` still breaks the output
+  HTML, so it's a correctness fix as much as a security one.
 - **Chamfer geometry** has two independent copies of the same polygon
   math, because the two tiers can't share a mixin: `src/patterns/
 _chamfer.css` (plain CSS, `.msb-chamfer`/`--sm`/`--lg` classes to
