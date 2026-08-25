@@ -107,6 +107,18 @@ past the previous layer during this repo's early development:
   `Docs/<Name>`. Component stories live beside their component and are
   titled `Components/<Name>`.
 
+## Local git hooks (lefthook)
+
+`npm install` runs `lefthook install` automatically (`prepare` script).
+Pre-commit runs lint + format on staged files, and **hard-blocks any
+commit touching `.storybook/__image_snapshots__/*.png`** — see "Visual
+regression" above for why that can only ever come from the
+`update-visual-snapshots.yml` workflow, never a local run. Pre-push
+runs `typecheck` and `test`. It deliberately does not run
+`test:storybook` — same reasoning, that suite's baselines are only
+valid when generated and compared on the same environment, and a local
+pre-push hook is the wrong place to try.
+
 ## Commit messages — required, this is enforced by CI
 
 **Use [Conventional Commits](https://www.conventionalcommits.org/).**
