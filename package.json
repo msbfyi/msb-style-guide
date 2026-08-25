@@ -1,6 +1,6 @@
 {
   "name": "@msbfyi/style-guide",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "MSB Style Guide — web component library for the msb.fyi design system",
   "type": "module",
   "license": "MIT",

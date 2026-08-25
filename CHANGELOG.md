@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.0.0](https://github.com/msbfyi/msb-style-guide/compare/v0.2.0-beta.1...v1.0.0) (2026-08-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* graduate from beta to 1.0.0 ([#20](https://github.com/msbfyi/msb-style-guide/issues/20))
+
+### Features
+
+* publish to npm on release ([#23](https://github.com/msbfyi/msb-style-guide/issues/23)) ([ac0abd4](https://github.com/msbfyi/msb-style-guide/commit/ac0abd4803f1b843f4bad9827d019d778d648505))
+
+
+### Bug Fixes
+
+* keep plain vX.Y.Z release tags, not component-prefixed ([#22](https://github.com/msbfyi/msb-style-guide/issues/22)) ([8f4e76c](https://github.com/msbfyi/msb-style-guide/commit/8f4e76ccbf1a8672a0ccc8df12cd307609d725fd))
+
+
+### Chores
+
+* graduate from beta to 1.0.0 ([#20](https://github.com/msbfyi/msb-style-guide/issues/20)) ([39a580d](https://github.com/msbfyi/msb-style-guide/commit/39a580d645d3a3990a443db543adde6df0fb1b45))
+
 ## [0.2.0-beta.1](https://github.com/msbfyi/msb-style-guide/compare/v0.2.0-beta...v0.2.0-beta.1) (2026-08-25)
 
 
