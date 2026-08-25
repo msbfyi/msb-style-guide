@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/msbfyi/msb-style-guide/compare/v1.0.3...v1.1.0) (2026-08-25)
+
+
+### Features
+
+* standalone mode-toggle build for no-bundler consumers ([#30](https://github.com/msbfyi/msb-style-guide/issues/30)) ([e8398fc](https://github.com/msbfyi/msb-style-guide/commit/e8398fcdadf6370d760d12fd112a488f33504dd9))
+
 ## [1.0.3](https://github.com/msbfyi/msb-style-guide/compare/v1.0.2...v1.0.3) (2026-08-25)
 
 
