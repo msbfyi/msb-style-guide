@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  lint-and-typecheck:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,5 +16,52 @@ jobs:
           cache: "npm"
       - run: npm ci
       - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run format:check
+
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+      - run: npm ci
+      - run: npm test
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+      - run: npm ci
       - run: npm run build
       - run: npm run build-storybook
+
+  storybook-tests:
+    # Interaction tests (play functions) and visual regression
+    # (jest-image-snapshot baselines in .storybook/__image_snapshots__/,
+    # committed to the repo). On a real visual diff, download this job's
+    # "storybook-test-diff-output" artifact to see the before/after/diff
+    # PNGs — jest-image-snapshot writes them under __diff_output__/,
+    # which isn't committed.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:storybook
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: storybook-test-diff-output
+          path: .storybook/__image_snapshots__/__diff_output__/
+          if-no-files-found: ignore

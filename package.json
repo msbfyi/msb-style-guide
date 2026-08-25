@@ -26,19 +26,49 @@
     "build": "vite build && cp src/tokens/tokens.css dist/tokens.css",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "web-test-runner",
+    "test:watch": "web-test-runner --watch",
+    "test:storybook": "npm run build-storybook && concurrently -k -s first -n SB,TEST \"http-server storybook-static --port 6006 --silent\" \"wait-on tcp:6006 && test-storybook --url http://localhost:6006\"",
+    "test:storybook:update": "npm run build-storybook && concurrently -k -s first -n SB,TEST \"http-server storybook-static --port 6006 --silent\" \"wait-on tcp:6006 && test-storybook --url http://localhost:6006 -u\"",
+    "lint": "eslint \"src/**/*.ts\" \".storybook/**/*.ts\"",
+    "lint:fix": "eslint \"src/**/*.ts\" \".storybook/**/*.ts\" --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "lit": "^3.2.1"
   },
   "devDependencies": {
+    "@open-wc/testing": "^5.0.0",
     "@storybook/addon-a11y": "^8.4.7",
+    "@storybook/addon-docs": "^8.4.7",
     "@storybook/addon-essentials": "^8.4.7",
+    "@storybook/test": "^8.6.14",
+    "@storybook/test-runner": "^0.23.0",
     "@storybook/web-components": "^8.4.7",
     "@storybook/web-components-vite": "^8.4.7",
+    "@types/jest-image-snapshot": "^6.4.0",
+    "@types/markdown-it": "^14.1.2",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "@web/dev-server-esbuild": "^2.0.0",
+    "@web/test-runner": "^1.0.0",
+    "@whitespace/storybook-addon-html": "^7.0.0",
+    "concurrently": "^9.1.2",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-lit": "^1.15.0",
+    "eslint-plugin-wc": "^2.2.1",
+    "http-server": "^14.1.1",
+    "jest-image-snapshot": "^6.5.2",
+    "markdown-it": "^14.1.0",
+    "prettier": "^3.9.6",
+    "remark-gfm": "^4.0.1",
     "storybook": "^8.4.7",
     "typescript": "^5.7.2",
     "vite": "^6.0.3",
-    "vite-plugin-dts": "^4.3.0"
+    "vite-plugin-dts": "^4.3.0",
+    "wait-on": "^8.0.1"
   }
 }

@@ -9,15 +9,44 @@ metals used only as accents.
 
 <div style={{ display: "flex", flexDirection: "column", gap: "12px", margin: "24px 0" }}>
   {[
-    { name: "Formal Neutral — Midnight Navy", hex: "#1B2A52", role: "1st base · replaces black", var: "--formal" },
-    { name: "Everyday Neutral — Deep Aubergine", hex: "#3B1F2B", role: "2nd base · replaces brown", var: "--everyday" },
-    { name: "Informal Neutral — Optic White", hex: "#F5F5F0", role: "3rd base", var: "--light" },
+    {
+      name: "Formal Neutral — Midnight Navy",
+      hex: "#1B2A52",
+      role: "1st base · replaces black",
+      var: "--formal",
+    },
+    {
+      name: "Everyday Neutral — Deep Aubergine",
+      hex: "#3B1F2B",
+      role: "2nd base · replaces brown",
+      var: "--everyday",
+    },
+    {
+      name: "Informal Neutral — Optic White",
+      hex: "#F5F5F0",
+      role: "3rd base",
+      var: "--light",
+    },
   ].map((c) => (
-    <div key={c.name} style={{ display: "grid", gridTemplateColumns: "90px 1fr", border: "1.5px solid #1B2A52", borderRadius: "999px", overflow: "hidden", alignItems: "stretch" }}>
+    <div
+      key={c.name}
+      style={{
+        display: "grid",
+        gridTemplateColumns: "90px 1fr",
+        border: "1.5px solid #1B2A52",
+        borderRadius: "999px",
+        overflow: "hidden",
+        alignItems: "stretch",
+        background: "#F5F5F0",
+      }}
+    >
       <div style={{ background: c.hex, borderRight: "1.5px solid #1B2A52" }} />
-      <div style={{ padding: "14px 22px" }}>
-        <strong>{c.name}</strong> <span style={{ fontFamily: "monospace", fontSize: "12px" }}>{c.var}: {c.hex}</span>
-        <div style={{ fontSize: "13px", opacity: 0.75 }}>{c.role}</div>
+      <div style={{ padding: "14px 22px", color: "#1B2A52" }}>
+        <strong>{c.name}</strong>{" "}
+        <span style={{ fontFamily: "monospace", fontSize: "12px", color: "#3B1F2B" }}>
+          {c.var}: {c.hex}
+        </span>
+        <div style={{ fontSize: "13px", color: "#3B1F2B" }}>{c.role}</div>
       </div>
     </div>
   ))}

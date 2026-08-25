@@ -7,7 +7,14 @@ import { Meta } from "@storybook/blocks";
 The chamfer replaces the capsule. A clipped corner reads as
 constructed; a rounded one reads as soft — this system is the former.
 
-<div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "14px", margin: "24px 0" }}>
+<div
+  style={{
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+    gap: "14px",
+    margin: "24px 0",
+  }}
+>
   {[
     { label: "6px — --c-sm", c: "6px", note: "Under 30px tall: badges, date chips" },
     { label: "11px — --c (default)", c: "11px", note: "Buttons, pills, chips, blocks" },
@@ -28,9 +35,29 @@ constructed; a rounded one reads as soft — this system is the former.
       >
         {s.c}
       </div>
-      <div style={{ fontFamily: "'Barlow Condensed'", textTransform: "uppercase", letterSpacing: "0.16em", fontSize: "11px", marginTop: "9px", opacity: 0.75 }}>
+      <div
+        style={{
+          fontFamily: "'Barlow Condensed'",
+          textTransform: "uppercase",
+          letterSpacing: "0.16em",
+          fontSize: "11px",
+          marginTop: "9px",
+          color: "#3B1F2B",
+        }}
+      >
         {s.label}
-        <div style={{ fontFamily: "sans-serif", textTransform: "none", letterSpacing: "normal", fontSize: "13px", marginTop: "4px" }}>{s.note}</div>
+        <div
+          style={{
+            fontFamily: "sans-serif",
+            textTransform: "none",
+            letterSpacing: "normal",
+            fontSize: "13px",
+            marginTop: "4px",
+            color: "#1B2A52",
+          }}
+        >
+          {s.note}
+        </div>
       </div>
     </div>
   ))}

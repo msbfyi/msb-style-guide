@@ -3,3 +3,7 @@ dist/
 storybook-static/
 *.local
 .DS_Store
+
+# jest-image-snapshot baselines (__image_snapshots__/*.png) are
+# committed on purpose — only the failure-diff output isn't.
+.storybook/__image_snapshots__/__diff_output__/

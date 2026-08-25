@@ -8,7 +8,14 @@ Five accent colors, each with a role — not interchangeable, not
 decorative. `--essence`, `--romantic`, `--energy`, `--tranquil`,
 `--dramatic`.
 
-<div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "16px", margin: "24px 0" }}>
+<div
+  style={{
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+    gap: "16px",
+    margin: "24px 0",
+  }}
+>
   {[
     { name: "Essence", hex: "#E8B98A", role: "Skin · approachable", var: "--essence" },
     { name: "Romantic", hex: "#B71C2A", role: "Vitality · motion", var: "--romantic" },
@@ -16,13 +23,39 @@ decorative. `--essence`, `--romantic`, `--energy`, `--tranquil`,
     { name: "Tranquil", hex: "#00897B", role: "Mellow · listening", var: "--tranquil" },
     { name: "Dramatic", hex: "#1A3A8F", role: "Spotlight · selling", var: "--dramatic" },
   ].map((c) => (
-    <div key={c.name} style={{ border: "1.5px solid #1B2A52", borderRadius: "12px", overflow: "hidden" }}>
+    <div
+      key={c.name}
+      style={{
+        border: "1.5px solid #1B2A52",
+        borderRadius: "12px",
+        overflow: "hidden",
+        background: "#F5F5F0",
+      }}
+    >
       <div style={{ height: "110px", background: c.hex }} />
-      <div style={{ padding: "14px 16px", fontFamily: "monospace", fontSize: "13px" }}>
-        <strong style={{ display: "block", fontSize: "16px", fontFamily: "sans-serif" }}>{c.name}</strong>
-        <span>{c.role}</span>
+      <div
+        style={{
+          padding: "14px 16px",
+          fontFamily: "monospace",
+          fontSize: "13px",
+          color: "#1B2A52",
+        }}
+      >
+        <strong
+          style={{
+            display: "block",
+            fontSize: "16px",
+            fontFamily: "sans-serif",
+            color: "#1B2A52",
+          }}
+        >
+          {c.name}
+        </strong>
+        <span style={{ color: "#3B1F2B" }}>{c.role}</span>
         <br />
-        <code>{c.var}: {c.hex}</code>
+        <code style={{ color: "#3B1F2B" }}>
+          {c.var}: {c.hex}
+        </code>
       </div>
     </div>
   ))}
