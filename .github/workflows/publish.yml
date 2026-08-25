@@ -1,0 +1,26 @@
+name: Publish to npm
+
+# Fires when release-please's release PR is merged — release-please
+# creates the GitHub Release itself as part of that, which is what
+# triggers this. workflow_dispatch is there only to retry a failed
+# publish without needing a whole new release.
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+          registry-url: "https://registry.npmjs.org"
+      - run: npm ci
+      - run: npm run build
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
